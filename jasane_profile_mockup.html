@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>JASAne — Profil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,8 +27,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     ::-webkit-scrollbar { display: none; }
     * { scrollbar-width: none; -ms-overflow-style: none; }
-    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; padding-bottom: 70px; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100dvh; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100dvh; margin: 0 auto; padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
     
 
     .header-bg { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);padding:14px 20px 60px;color:#fff;position:relative }
@@ -83,7 +83,7 @@
     .version-info { text-align:center;padding:20px;font-size:11px;color:var(--text-tertiary) }
     .version-info b { color:var(--primary);font-weight:600 }
 
-    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50; }
+    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50; padding-bottom: env(safe-area-inset-bottom, 0px); }
     .nav-item { display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--text-tertiary);cursor:pointer;min-width:52px }
     .nav-item.active { color:var(--primary) }
     .nav-dot { width:5px;height:5px;border-radius:50%;background:var(--primary-light);margin-top:1px }
@@ -314,6 +314,9 @@ document.querySelectorAll('.mi-toggle').forEach(function(t){
 </script>
 </body>
 </html>
+
+
+
 
 
 

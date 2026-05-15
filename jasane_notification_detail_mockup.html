@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Detail Notifikasi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; padding-top: 36px; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px;position:sticky;top:0;background:var(--bg-primary);z-index:40 }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+    .more-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    /* Header */
+    .notif-header { padding:0 20px 20px;border-bottom:1px solid var(--border-tertiary) }
+    .nh-icon-row { display:flex;align-items:center;gap:12px;margin-bottom:14px }
+    .nh-icon { width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .nh-type { font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px }
+    .nh-type.booking { background:var(--primary-surface);color:var(--primary-dark) }
+    .nh-title { font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3 }
+    .nh-time { font-size:12px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px }
+
+    /* Body */
+    .notif-body { padding:20px }
+    .nb-text { font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:20px }
+
+    /* Info card */
+    .info-card { background:var(--bg-secondary);border:1px solid var(--border-tertiary);border-radius:14px;overflow:hidden;margin-bottom:20px }
+    .ic-row { display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border-tertiary) }
+    .ic-row:last-child { border-bottom:none }
+    .ic-icon { width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .ic-label { font-size:12px;color:var(--text-secondary);flex:1 }
+    .ic-val { font-size:13px;font-weight:600;color:var(--text-primary);text-align:right;max-width:55% }
+
+    /* Mitra card */
+    .mitra-card { display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);border-radius:14px;margin-bottom:20px;cursor:pointer }
+    .mitra-card:active { background:var(--border-tertiary) }
+    .mc-avatar { width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0 }
+    .mc-info { flex:1;min-width:0 }
+    .mc-name { font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:2px }
+    .mc-sub { font-size:12px;color:var(--text-secondary) }
+    .mc-arrow { font-size:18px;color:var(--text-tertiary) }
+
+    /* Timeline */
+    .timeline { margin-bottom:20px }
+    .tl-title { font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:12px }
+    .tl-items { position:relative;padding-left:22px }
+    .tl-line { position:absolute;left:8px;top:10px;bottom:10px;width:2px;background:var(--border-tertiary) }
+    .tl-item { display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;position:relative }
+    .tl-item:last-child { margin-bottom:0 }
+    .tl-dot { width:17px;height:17px;border-radius:50%;flex-shrink:0;position:absolute;left:-22px;display:flex;align-items:center;justify-content:center;border:2px solid var(--border-tertiary);background:var(--bg-primary) }
+    .tl-dot.done { background:#1D9E75;border-color:#1D9E75 }
+    .tl-dot.active { background:var(--primary);border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-surface) }
+    .tl-dot.pending { background:var(--bg-secondary);border-color:var(--border-tertiary) }
+    .tl-step { font-size:13px;font-weight:600;color:var(--text-primary) }
+    .tl-step.muted { color:var(--text-tertiary) }
+    .tl-desc { font-size:11px;color:var(--text-secondary);margin-top:2px }
+
+    /* Map preview */
+    .map-preview { width:100%;height:120px;border-radius:14px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:20px;cursor:pointer }
+    .map-preview:active { background:var(--border-tertiary) }
+    .map-preview i { font-size:28px;color:var(--primary) }
+    .map-preview span { font-size:12px;color:var(--text-secondary);font-weight:500 }
+
+    /* Actions */
+    .actions { padding:0 20px 24px;display:flex;flex-direction:column;gap:10px;margin-top:auto }
+    .btn-primary { width:100%;padding:14px;border-radius:14px;border:none;background:var(--primary);font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(0,132,255,0.3) }
+    .btn-primary:active { transform:scale(0.97) }
+    .btn-secondary { width:100%;padding:13px;border-radius:14px;border:1px solid var(--border-secondary);background:transparent;font-size:14px;font-weight:500;color:var(--text-primary);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px }
+    .btn-secondary:active { background:var(--bg-secondary) }
+  </style>
+</head>
+<body>
+<div class="device" style="padding-top:36px">
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_notification_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Detail notifikasi</span>
+    <div class="more-btn"><i class="ti ti-dots" style="font-size:17px;color:var(--text-secondary)"></i></div>
+  </div>
+
+  <!-- Header -->
+  <div class="notif-header">
+    <div class="nh-icon-row">
+      <div class="nh-icon" style="background:var(--primary-surface)"><i class="ti ti-map-pin" style="font-size:24px;color:var(--primary)"></i></div>
+      <span class="nh-type booking">Pembaruan Pesanan</span>
+    </div>
+    <div class="nh-title">Mitra dalam perjalanan menuju lokasimu</div>
+    <div class="nh-time"><i class="ti ti-clock" style="font-size:13px"></i> Hari ini, 09.42 WIB · 5 menit lalu</div>
+  </div>
+
+  <!-- Body -->
+  <div class="notif-body">
+    <div class="nb-text">
+      Budi Santoso sedang dalam perjalanan menuju alamatmu untuk mengerjakan <b>Service rutin AC</b>. Estimasi tiba dalam <b>12 menit</b>. Pastikan kamu ada di lokasi ya!
+    </div>
+
+    <!-- Mitra card -->
+    <div class="mitra-card" onclick="window.location.href='jasane_mitra_profile_mockup.html'">
+      <div class="mc-avatar" style="background:var(--primary-surface);color:var(--primary-dark)">BU</div>
+      <div class="mc-info">
+        <div class="mc-name">Budi Santoso</div>
+        <div class="mc-sub">Teknisi AC · <i class="ti ti-star" style="font-size:11px;color:#BA7517"></i> 4.9</div>
+      </div>
+      <i class="ti ti-chevron-right mc-arrow"></i>
+    </div>
+
+    <!-- Map preview -->
+    <div class="map-preview">
+      <i class="ti ti-map-pin"></i>
+      <span>Lihat lokasi mitra di peta</span>
+    </div>
+
+    <!-- Order info -->
+    <div class="info-card">
+      <div class="ic-row">
+        <div class="ic-icon" style="background:var(--primary-surface)"><i class="ti ti-tools" style="font-size:15px;color:var(--primary)"></i></div>
+        <span class="ic-label">Layanan</span>
+        <span class="ic-val">Service rutin AC · 1 unit</span>
+      </div>
+      <div class="ic-row">
+        <div class="ic-icon" style="background:#E1F5EE"><i class="ti ti-calendar" style="font-size:15px;color:#0F6E56"></i></div>
+        <span class="ic-label">Jadwal</span>
+        <span class="ic-val">Hari ini · 11.00 WIB</span>
+      </div>
+      <div class="ic-row">
+        <div class="ic-icon" style="background:#FAEEDA"><i class="ti ti-map-pin" style="font-size:15px;color:#854F0B"></i></div>
+        <span class="ic-label">Alamat</span>
+        <span class="ic-val">Jl. Veteran No. 12, Pasuruan</span>
+      </div>
+      <div class="ic-row">
+        <div class="ic-icon" style="background:#FAECE7"><i class="ti ti-receipt" style="font-size:15px;color:#993C1D"></i></div>
+        <span class="ic-label">Kode pesanan</span>
+        <span class="ic-val">JSN-20260515-4821</span>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="tl-title">Status pesanan</div>
+      <div class="tl-items">
+        <div class="tl-line"></div>
+        <div class="tl-item">
+          <div class="tl-dot done"><i class="ti ti-check" style="font-size:9px;color:#fff"></i></div>
+          <div>
+            <div class="tl-step">Pesanan dibuat & dibayar</div>
+            <div class="tl-desc">Hari ini, 09.20 WIB</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done"><i class="ti ti-check" style="font-size:9px;color:#fff"></i></div>
+          <div>
+            <div class="tl-step">Mitra mengkonfirmasi</div>
+            <div class="tl-desc">Hari ini, 09.25 WIB</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot active"></div>
+          <div>
+            <div class="tl-step">Mitra dalam perjalanan</div>
+            <div class="tl-desc">Hari ini, 09.42 WIB · ETA 12 menit</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot pending"></div>
+          <div>
+            <div class="tl-step muted">Pengerjaan dimulai</div>
+            <div class="tl-desc">Menunggu mitra tiba</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot pending"></div>
+          <div>
+            <div class="tl-step muted">Selesai</div>
+            <div class="tl-desc">Estimasi ±60 menit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-primary" onclick="window.location.href='jasane_chat_mockup.html'">
+      <i class="ti ti-message" style="font-size:17px"></i>
+      Chat dengan mitra
+    </button>
+    <button class="btn-secondary" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-clipboard-list" style="font-size:17px"></i>
+      Lihat detail pesanan
+    </button>
+  </div>
+
+</div>
+</body>
+</html>
+

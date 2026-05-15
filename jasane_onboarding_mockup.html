@@ -24,10 +24,10 @@
       --border-tertiary: #EBEBEB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: var(--bg-primary); height: 100%; width: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
     .device { width: 100%; height: 100%; max-width: 430px; margin: 0 auto; background: var(--bg-primary); position: relative; overflow: hidden; display: flex; flex-direction: column; }
-
-    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
 
     .skip-btn { font-size:13px;color:var(--text-secondary);cursor:pointer;font-weight:500;padding:6px 12px;border-radius:20px }
     .skip-btn:active { background:var(--bg-secondary) }
@@ -122,10 +122,9 @@
   </style>
 </head>
 <body>
-<div class="device">
+<div class="device" style="padding-top:36px">
 
-  <div class="statusbar">
-    <span>9:41</span>
+  <div style="display:flex;justify-content:flex-end;padding:8px 20px">
     <div class="skip-btn" id="skipBtn" onclick="goToStep(3)">Lewati</div>
   </div>
 
@@ -296,3 +295,8 @@ updateUI();
 </script>
 </body>
 </html>
+
+
+
+
+

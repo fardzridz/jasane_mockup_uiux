@@ -24,6 +24,8 @@
       --border-tertiary: #EBEBEB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     .device {
       width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden;
@@ -31,7 +33,6 @@
     }
     
 
-    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
     .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px }
     .back-btn,.share-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
 
@@ -98,15 +99,7 @@
   </style>
 </head>
 <body>
-<div class="device">
-
-  <div class="statusbar">
-    <span>9:41</span>
-    <div style="display:flex;gap:5px;align-items:center">
-      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
-      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
-    </div>
-  </div>
+<div class="device" style="padding-top:36px">
 
   <div class="topnav">
     <div class="back-btn" onclick="window.location.href='jasane_home_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)" aria-hidden="true"></i></div>
@@ -288,6 +281,11 @@ function showTab(name) {
 </script>
 </body>
 </html>
+
+
+
+
+
 
 
 

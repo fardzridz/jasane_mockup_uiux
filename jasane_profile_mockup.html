@@ -24,11 +24,11 @@
       --border-tertiary: #EBEBEB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; padding-bottom: 70px; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
     
-
-    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
 
     .header-bg { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);padding:14px 20px 60px;color:#fff;position:relative }
     .header-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:18px }
@@ -82,22 +82,14 @@
     .version-info { text-align:center;padding:20px;font-size:11px;color:var(--text-tertiary) }
     .version-info b { color:var(--primary);font-weight:600 }
 
-    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50;margin-top:auto }
+    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50; }
     .nav-item { display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--text-tertiary);cursor:pointer;min-width:52px }
     .nav-item.active { color:var(--primary) }
     .nav-dot { width:5px;height:5px;border-radius:50%;background:var(--primary-light);margin-top:1px }
   </style>
 </head>
 <body>
-<div class="device">
-
-  <div class="statusbar">
-    <span>9:41</span>
-    <div style="display:flex;gap:5px;align-items:center">
-      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
-      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
-    </div>
-  </div>
+<div class="device" style="padding-top:36px">
 
   <div class="header-bg">
     <div class="header-top">
@@ -305,8 +297,8 @@
       <i class="ti ti-message" style="font-size:22px"></i>
       <span>Chat</span>
     </div>
-    <div class="nav-item active">
-      <i class="ti ti-user-filled" style="font-size:22px"></i>
+    <div class="nav-item active" onclick="window.location.href='jasane_profile_mockup.html'">
+      <i class="ti ti-user" style="font-size:22px"></i>
       <span>Profil</span>
       <div class="nav-dot"></div>
     </div>
@@ -321,6 +313,15 @@ document.querySelectorAll('.mi-toggle').forEach(function(t){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

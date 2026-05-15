@@ -25,25 +25,20 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
     .device {
       width: 100%;
       max-width: 430px;
-      min-height: 100vh;
-      margin: 0 auto;
+      min-height: 100vh; margin: 0 auto; padding-bottom: 70px;
       background: var(--bg-primary);
       position: relative;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
       box-shadow: none;
-    }
-
-    .statusbar {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 20px 8px; font-size: 12px; font-weight: 500;
-      color: var(--text-primary);
     }
 
     .topbar {
@@ -187,15 +182,7 @@
 </head>
 <body>
 
-<div class="device">
-
-  <div class="statusbar">
-    <span>9:41</span>
-    <div style="display:flex;gap:5px;align-items:center">
-      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
-      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
-    </div>
-  </div>
+<div class="device" style="padding-top:36px">
 
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:12px">
@@ -205,7 +192,7 @@
         <div class="greeting-sub"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> Pasuruan, Jawa Timur</div>
       </div>
     </div>
-    <div class="notif-btn">
+    <div class="notif-btn" onclick="window.location.href='jasane_notification_mockup.html'">
       <i class="ti ti-bell" style="font-size:18px;color:var(--text-secondary)" aria-hidden="true"></i>
       <div class="notif-dot"></div>
     </div>
@@ -325,24 +312,24 @@
 
   <div class="navbar">
     <div class="nav-item active" onclick="window.location.href='jasane_home_mockup.html'">
-      <i class="ti ti-home-filled" style="font-size:22px" aria-hidden="true"></i>
+      <i class="ti ti-home" style="font-size:22px"></i>
       <span>Beranda</span>
       <div class="nav-dot"></div>
     </div>
     <div class="nav-item" onclick="window.location.href='jasane_search_mockup.html'">
-      <i class="ti ti-search" style="font-size:22px" aria-hidden="true"></i>
+      <i class="ti ti-search" style="font-size:22px"></i>
       <span>Cari</span>
     </div>
     <div class="nav-item" onclick="window.location.href='jasane_orders_mockup.html'">
-      <i class="ti ti-clipboard-list" style="font-size:22px" aria-hidden="true"></i>
+      <i class="ti ti-clipboard-list" style="font-size:22px"></i>
       <span>Pesanan</span>
     </div>
     <div class="nav-item" onclick="window.location.href='jasane_chat_mockup.html'">
-      <i class="ti ti-message" style="font-size:22px" aria-hidden="true"></i>
+      <i class="ti ti-message" style="font-size:22px"></i>
       <span>Chat</span>
     </div>
     <div class="nav-item" onclick="window.location.href='jasane_profile_mockup.html'">
-      <i class="ti ti-user" style="font-size:22px" aria-hidden="true"></i>
+      <i class="ti ti-user" style="font-size:22px"></i>
       <span>Profil</span>
     </div>
   </div>
@@ -351,6 +338,15 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

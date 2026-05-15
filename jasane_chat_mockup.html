@@ -24,11 +24,11 @@
       --border-tertiary: #EBEBEB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; padding-bottom: 72px; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
     
-
-    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
 
     /* Screen container */
     .screen { display:none;flex-direction:column;flex:1;min-height:0 }
@@ -106,7 +106,7 @@
     .comp-send { width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:none }
 
     /* Bottom Navigation */
-    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);flex-shrink:0 }
+    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);flex-shrink:0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50; }
     .nav-item { display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--text-tertiary);cursor:pointer;min-width:52px;position:relative }
     .nav-item.active { color:var(--primary) }
     .nav-dot { width:5px;height:5px;border-radius:50%;background:var(--primary-light);margin-top:1px }
@@ -114,15 +114,7 @@
   </style>
 </head>
 <body>
-<div class="device">
-
-  <div class="statusbar">
-    <span>9:41</span>
-    <div style="display:flex;gap:5px;align-items:center">
-      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
-      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
-    </div>
-  </div>
+<div class="device" style="padding-top:36px">
 
   <!-- ============ CHAT LIST SCREEN ============ -->
   <div class="screen active" id="screen-list">
@@ -238,10 +230,9 @@
         <i class="ti ti-clipboard-list" style="font-size:22px"></i>
         <span>Pesanan</span>
       </div>
-      <div class="nav-item active">
-        <i class="ti ti-message-filled" style="font-size:22px"></i>
+      <div class="nav-item active" onclick="window.location.href='jasane_chat_mockup.html'">
+        <i class="ti ti-message" style="font-size:22px"></i>
         <span>Chat</span>
-        <div class="nav-badge">3</div>
         <div class="nav-dot"></div>
       </div>
       <div class="nav-item" onclick="window.location.href='jasane_profile_mockup.html'">
@@ -359,6 +350,13 @@ document.querySelectorAll('.filter-chips .chip').forEach(function(c){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 

@@ -24,13 +24,13 @@
       --border-tertiary: #EBEBEB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     .device {
       width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden;
     }
     
-
-    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
 
     .confetti-wrap { position:absolute;top:0;left:0;width:100%;height:220px;overflow:hidden;pointer-events:none;z-index:10 }
     .dot { position:absolute;border-radius:50%;animation:fall 2.4s ease-in forwards }
@@ -88,15 +88,7 @@
   </style>
 </head>
 <body>
-<div class="device">
-
-  <div class="statusbar">
-    <span>9:41</span>
-    <div style="display:flex;gap:5px;align-items:center">
-      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
-      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
-    </div>
-  </div>
+<div class="device" style="padding-top:36px">
 
   <div class="confetti-wrap" id="confetti"></div>
 
@@ -259,6 +251,11 @@ function copyCode(btn) {
 </script>
 </body>
 </html>
+
+
+
+
+
 
 
 

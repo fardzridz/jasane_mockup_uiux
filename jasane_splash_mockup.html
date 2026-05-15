@@ -17,6 +17,8 @@
       --bg-primary: #FFFFFF;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
     html, body { font-family: 'Inter', sans-serif; background: var(--bg-primary); height: 100%; width: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
     .device { width: 100%; height: 100%; max-width: 430px; margin: 0 auto; background: var(--bg-primary); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
@@ -188,3 +190,7 @@ document.querySelector('.device').addEventListener('click', function() {
 </script>
 </body>
 </html>
+
+
+
+

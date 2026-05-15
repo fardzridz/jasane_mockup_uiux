@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Notifikasi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; padding-top: 36px; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px;position:sticky;top:0;background:var(--bg-primary);z-index:40 }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+    .mark-read { font-size:12px;color:var(--primary);font-weight:600;cursor:pointer;padding:6px 12px;border-radius:20px }
+    .mark-read:active { background:var(--primary-surface) }
+
+    .filter-tabs { display:flex;gap:8px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none }
+    .filter-tabs::-webkit-scrollbar { display:none }
+    .ftab { padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border-tertiary);color:var(--text-secondary);cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:5px }
+    .ftab.active { background:var(--primary);color:#fff;border-color:var(--primary) }
+    .ftab .count { font-size:10px;font-weight:600;background:rgba(255,255,255,0.25);padding:1px 6px;border-radius:10px }
+    .ftab.active .count { background:rgba(255,255,255,0.3) }
+
+    .notif-list { flex:1;padding:0 }
+
+    .day-label { font-size:11px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.05em;padding:10px 20px 6px }
+
+    .notif-item { display:flex;gap:12px;padding:14px 20px;cursor:pointer;border-bottom:1px solid var(--border-tertiary);position:relative }
+    .notif-item:active { background:var(--bg-secondary) }
+    .notif-item.unread { background:var(--primary-surface) }
+    .notif-item.unread::before { content:'';position:absolute;left:8px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--primary) }
+
+    .ni-icon { width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .ni-content { flex:1;min-width:0 }
+    .ni-title { font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;display:flex;align-items:center;gap:6px }
+    .ni-body { font-size:12px;color:var(--text-secondary);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
+    .ni-meta { display:flex;align-items:center;gap:8px;margin-top:6px;font-size:11px;color:var(--text-tertiary) }
+    .ni-meta i { font-size:12px }
+    .ni-badge { font-size:9px;font-weight:600;padding:2px 6px;border-radius:10px }
+    .ni-badge.booking { background:var(--primary-surface);color:var(--primary-dark) }
+    .ni-badge.payment { background:#E1F5EE;color:#085041 }
+    .ni-badge.promo { background:#FAEEDA;color:#633806 }
+    .ni-badge.chat { background:#EAF3DE;color:#3B6D11 }
+    .ni-badge.alert { background:#FAECE7;color:#993C1D }
+
+    .ni-action { margin-top:8px;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-surface);padding:5px 10px;border-radius:20px }
+
+    .empty-state { padding:60px 20px;text-align:center;display:none }
+    .empty-icon { width:80px;height:80px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;margin:0 auto 14px }
+    .empty-title { font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:6px }
+    .empty-sub { font-size:13px;color:var(--text-secondary);line-height:1.5 }
+  </style>
+</head>
+<body>
+<div class="device" style="padding-top:36px">
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_home_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+    <span style="font-size:16px;font-weight:600;color:var(--text-primary)">Notifikasi</span>
+    <div class="mark-read">Baca semua</div>
+  </div>
+
+  <div class="filter-tabs">
+    <div class="ftab active">Semua <span class="count">8</span></div>
+    <div class="ftab">Pesanan <span class="count">4</span></div>
+    <div class="ftab">Pembayaran</div>
+    <div class="ftab">Chat</div>
+    <div class="ftab">Promo</div>
+  </div>
+
+  <div class="notif-list">
+
+    <div class="day-label">Hari ini</div>
+
+    <!-- Mitra dalam perjalanan - unread -->
+    <div class="notif-item unread" onclick="window.location.href='jasane_notification_detail_mockup.html'">
+      <div class="ni-icon" style="background:var(--primary-surface)"><i class="ti ti-map-pin" style="font-size:20px;color:var(--primary)"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Mitra dalam perjalanan <span class="ni-badge booking">Pesanan</span></div>
+        <div class="ni-body">Budi Santoso sedang menuju lokasimu. Estimasi tiba 12 menit lagi.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 5 menit lalu</div>
+        <div class="ni-action"><i class="ti ti-map-2" style="font-size:12px"></i> Lacak mitra</div>
+      </div>
+    </div>
+
+    <!-- Pembayaran berhasil - unread -->
+    <div class="notif-item unread" onclick="window.location.href='jasane_notification_detail_mockup.html'">
+      <div class="ni-icon" style="background:#E1F5EE"><i class="ti ti-circle-check" style="font-size:20px;color:#1D9E75"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Pembayaran berhasil <span class="ni-badge payment">Bayar</span></div>
+        <div class="ni-body">Pembayaran Rp 80.000 untuk Service rutin AC telah dikonfirmasi via QRIS. Pesanan JSN-20260515-4821 terjadwal.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 32 menit lalu · <i class="ti ti-receipt"></i> JSN-20260515-4821</div>
+      </div>
+    </div>
+
+    <!-- Pesan baru - unread -->
+    <div class="notif-item unread" onclick="window.location.href='jasane_chat_mockup.html'">
+      <div class="ni-icon" style="background:#EAF3DE"><i class="ti ti-message" style="font-size:20px;color:#3B6D11"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Pesan baru dari Budi Santoso <span class="ni-badge chat">Chat</span></div>
+        <div class="ni-body">"Baik kak, saya berangkat sekarang ya. Estimasi sampai 12 menit lagi"</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 38 menit lalu</div>
+      </div>
+    </div>
+
+    <!-- Pengingat H-1 -->
+    <div class="notif-item" onclick="window.location.href='jasane_notification_detail_mockup.html'">
+      <div class="ni-icon" style="background:#FAEEDA"><i class="ti ti-bell-ringing" style="font-size:20px;color:#854F0B"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Pengingat pesanan besok <span class="ni-badge booking">Pesanan</span></div>
+        <div class="ni-body">Jangan lupa, kamu punya jadwal Service rutin AC besok pukul 11.00 WIB dengan Budi Santoso.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 2 jam lalu · <i class="ti ti-calendar"></i> Sel, 20 Mei</div>
+      </div>
+    </div>
+
+    <div class="day-label">Kemarin</div>
+
+    <!-- Pesanan selesai -->
+    <div class="notif-item" onclick="window.location.href='jasane_notification_detail_mockup.html'">
+      <div class="ni-icon" style="background:#E1F5EE"><i class="ti ti-circle-check" style="font-size:20px;color:#1D9E75"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Pesanan selesai <span class="ni-badge booking">Pesanan</span></div>
+        <div class="ni-body">Service rutin AC oleh Budi Santoso telah selesai. Beri rating untuk pengalamanmu!</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> Kemarin, 12.30 · <i class="ti ti-receipt"></i> JSN-20260512-1145</div>
+        <div class="ni-action"><i class="ti ti-star" style="font-size:12px"></i> Beri ulasan</div>
+      </div>
+    </div>
+
+    <!-- Review requested -->
+    <div class="notif-item" onclick="window.location.href='jasane_notification_detail_mockup.html'">
+      <div class="ni-icon" style="background:#FAEEDA"><i class="ti ti-star" style="font-size:20px;color:#BA7517"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Bagaimana pengalamanmu?</div>
+        <div class="ni-body">Kamu belum memberikan ulasan untuk pesanan Perbaikan Elektronik. Bantu mitra dan pengguna lain dengan ulasanmu.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> Kemarin, 09.15</div>
+      </div>
+    </div>
+
+    <div class="day-label">Minggu ini</div>
+
+    <!-- Promo -->
+    <div class="notif-item">
+      <div class="ni-icon" style="background:#FAEEDA"><i class="ti ti-ticket" style="font-size:20px;color:#854F0B"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Promo spesial untukmu! <span class="ni-badge promo">Promo</span></div>
+        <div class="ni-body">Gratis biaya platform untuk 3 pesanan pertama. Gunakan kode GRATIS3 sebelum 31 Mei 2026.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 3 hari lalu</div>
+      </div>
+    </div>
+
+    <!-- Pembatalan -->
+    <div class="notif-item">
+      <div class="ni-icon" style="background:#FAECE7"><i class="ti ti-circle-x" style="font-size:20px;color:#E24B4A"></i></div>
+      <div class="ni-content">
+        <div class="ni-title">Pesanan dibatalkan <span class="ni-badge alert">Batal</span></div>
+        <div class="ni-body">Pesanan Pasang AC baru (JSN-20260508-9912) telah dibatalkan. Refund 50% sebesar Rp 125.000 sedang diproses.</div>
+        <div class="ni-meta"><i class="ti ti-clock"></i> 8 Mei 2026 · <i class="ti ti-receipt"></i> JSN-20260508-9912</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.ftab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.ftab').forEach(function(o){o.classList.remove('active')});
+    t.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
+

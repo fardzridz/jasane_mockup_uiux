@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Keamanan & Password</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+      --success: #1D9E75;
+      --success-surface: #E1F5EE;
+      --warning: #BA7517;
+      --warning-surface: #FAEEDA;
+      --error: #E24B4A;
+      --error-surface: #FAECE7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    /* Security score */
+    .score-card { margin:0 20px 20px;background:linear-gradient(135deg, var(--success-surface) 0%, #D4F5E8 100%);border:1px solid #9FE1CB;border-radius:16px;padding:18px;display:flex;align-items:center;gap:14px }
+    .score-ring { width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--success) 0% 75%, var(--border-tertiary) 75% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .score-inner { width:48px;height:48px;border-radius:50%;background:var(--success-surface);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#085041 }
+    .score-info { flex:1 }
+    .score-title { font-size:14px;font-weight:600;color:#085041;margin-bottom:3px }
+    .score-sub { font-size:12px;color:#0F6E56;line-height:1.4 }
+
+    .section { padding:0 20px;margin-bottom:20px }
+    .section-title { font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-tertiary);font-weight:600;margin-bottom:10px }
+
+    .sec-card { border:1px solid var(--border-tertiary);border-radius:14px;overflow:hidden;margin-bottom:12px }
+    .sec-item { display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--border-tertiary);cursor:pointer }
+    .sec-item:last-child { border-bottom:none }
+    .sec-item:active { background:var(--bg-secondary) }
+    .si-icon { width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .si-info { flex:1;min-width:0 }
+    .si-title { font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:2px }
+    .si-sub { font-size:11px;color:var(--text-secondary) }
+    .si-status { display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;flex-shrink:0 }
+    .si-status.on { background:var(--success-surface);color:#085041 }
+    .si-status.off { background:var(--warning-surface);color:#633806 }
+    .si-status.danger { background:var(--error-surface);color:#993C1D }
+    .si-chevron { font-size:18px;color:var(--text-tertiary) }
+
+    .si-toggle { width:42px;height:24px;background:var(--success);border-radius:20px;position:relative;cursor:pointer;flex-shrink:0 }
+    .si-toggle::after { content:'';position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.2) }
+    .si-toggle.off { background:var(--border-secondary) }
+    .si-toggle.off::after { right:auto;left:2px }
+
+    /* Change password section */
+    .pw-section { margin:0 20px 20px;background:var(--bg-secondary);border-radius:14px;padding:16px }
+    .pw-title { font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:6px }
+    .pw-field { margin-bottom:12px }
+    .pw-label { font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500 }
+    .pw-input { width:100%;display:flex;align-items:center;gap:10px;background:var(--bg-primary);border:1.5px solid var(--border-tertiary);border-radius:12px;padding:0 14px }
+    .pw-input:focus-within { border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,132,255,0.1) }
+    .pw-input i { font-size:17px;color:var(--text-tertiary);flex-shrink:0 }
+    .pw-input input { flex:1;border:none;background:transparent;outline:none;font-size:13px;font-family:inherit;color:var(--text-primary);padding:12px 0 }
+    .pw-input input::placeholder { color:var(--text-tertiary) }
+    .pw-input .toggle { cursor:pointer;padding:4px }
+    .pw-strength { display:flex;gap:4px;margin-top:6px }
+    .pw-bar { flex:1;height:3px;border-radius:2px;background:var(--border-tertiary) }
+    .pw-bar.fill { background:var(--success) }
+    .btn-change { width:100%;padding:13px;border-radius:12px;border:none;background:var(--primary);font-size:13px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;margin-top:4px }
+    .btn-change:active { transform:scale(0.97) }
+
+    /* Sessions */
+    .session-item { display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-tertiary) }
+    .session-item:last-child { border-bottom:none }
+    .sess-icon { width:36px;height:36px;border-radius:10px;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .sess-info { flex:1;min-width:0 }
+    .sess-device { font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:2px;display:flex;align-items:center;gap:5px }
+    .sess-current { font-size:9px;font-weight:600;color:var(--success);background:var(--success-surface);padding:1px 6px;border-radius:10px }
+    .sess-detail { font-size:11px;color:var(--text-secondary) }
+    .sess-logout { font-size:11px;color:var(--error);font-weight:600;cursor:pointer;flex-shrink:0 }
+
+    .btn-logout-all { width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--error);background:transparent;font-size:13px;font-weight:600;color:var(--error);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px }
+    .btn-logout-all:active { background:var(--error-surface) }
+
+    .danger-zone { margin:0 20px 24px;padding:14px;border:1px solid var(--error-surface);border-radius:14px;background:var(--error-surface) }
+    .dz-title { font-size:13px;font-weight:600;color:#993C1D;margin-bottom:4px;display:flex;align-items:center;gap:5px }
+    .dz-sub { font-size:11px;color:#993C1D;line-height:1.5;margin-bottom:10px }
+    .dz-btn { padding:10px 16px;border-radius:10px;border:1px solid #E24B4A;background:transparent;font-size:12px;font-weight:600;color:#E24B4A;cursor:pointer;font-family:inherit }
+    .dz-btn:active { background:#fff }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px"></i>
+      <i class="ti ti-battery" style="font-size:14px"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_profile_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Keamanan & password</span>
+    <div style="width:36px"></div>
+  </div>
+
+  <!-- Security Score -->
+  <div class="score-card">
+    <div class="score-ring">
+      <div class="score-inner">75%</div>
+    </div>
+    <div class="score-info">
+      <div class="score-title">Keamanan akun: Baik</div>
+      <div class="score-sub">Aktifkan 2FA untuk meningkatkan keamanan akunmu ke level maksimal.</div>
+    </div>
+  </div>
+
+  <!-- Verifikasi -->
+  <div class="section">
+    <div class="section-title">Status verifikasi</div>
+    <div class="sec-card">
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--success-surface)"><i class="ti ti-mail" style="font-size:18px;color:var(--success)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Email</div>
+          <div class="si-sub">farid@email.com</div>
+        </div>
+        <div class="si-status on"><i class="ti ti-circle-check" style="font-size:11px"></i> Terverifikasi</div>
+      </div>
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--success-surface)"><i class="ti ti-phone" style="font-size:18px;color:var(--success)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Nomor HP</div>
+          <div class="si-sub">+62 812-****-7890</div>
+        </div>
+        <div class="si-status on"><i class="ti ti-circle-check" style="font-size:11px"></i> Terverifikasi</div>
+      </div>
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--warning-surface)"><i class="ti ti-shield-lock" style="font-size:18px;color:var(--warning)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Autentikasi 2 faktor (2FA)</div>
+          <div class="si-sub">Tambah lapisan keamanan ekstra</div>
+        </div>
+        <div class="si-status off"><i class="ti ti-alert-circle" style="font-size:11px"></i> Nonaktif</div>
+        <i class="ti ti-chevron-right si-chevron"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keamanan login -->
+  <div class="section">
+    <div class="section-title">Keamanan login</div>
+    <div class="sec-card">
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--primary-surface)"><i class="ti ti-fingerprint" style="font-size:18px;color:var(--primary)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Biometrik (sidik jari / wajah)</div>
+          <div class="si-sub">Login cepat tanpa password</div>
+        </div>
+        <div class="si-toggle"></div>
+      </div>
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--primary-surface)"><i class="ti ti-device-mobile" style="font-size:18px;color:var(--primary)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Ingat perangkat ini</div>
+          <div class="si-sub">Tidak perlu login ulang di perangkat ini</div>
+        </div>
+        <div class="si-toggle"></div>
+      </div>
+      <div class="sec-item">
+        <div class="si-icon" style="background:var(--warning-surface)"><i class="ti ti-bell-ringing" style="font-size:18px;color:var(--warning)"></i></div>
+        <div class="si-info">
+          <div class="si-title">Notifikasi login baru</div>
+          <div class="si-sub">Dapat peringatan jika ada login dari perangkat baru</div>
+        </div>
+        <div class="si-toggle"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ubah Password -->
+  <div class="pw-section">
+    <div class="pw-title"><i class="ti ti-key" style="font-size:16px;color:var(--primary)"></i> Ubah password</div>
+
+    <div class="pw-field">
+      <div class="pw-label">Password saat ini</div>
+      <div class="pw-input">
+        <i class="ti ti-lock"></i>
+        <input type="password" placeholder="Masukkan password lama">
+        <i class="ti ti-eye-off toggle"></i>
+      </div>
+    </div>
+
+    <div class="pw-field">
+      <div class="pw-label">Password baru</div>
+      <div class="pw-input">
+        <i class="ti ti-lock-plus"></i>
+        <input type="password" placeholder="Min. 8 karakter">
+        <i class="ti ti-eye-off toggle"></i>
+      </div>
+      <div class="pw-strength">
+        <div class="pw-bar"></div>
+        <div class="pw-bar"></div>
+        <div class="pw-bar"></div>
+        <div class="pw-bar"></div>
+      </div>
+    </div>
+
+    <div class="pw-field">
+      <div class="pw-label">Konfirmasi password baru</div>
+      <div class="pw-input">
+        <i class="ti ti-lock-check"></i>
+        <input type="password" placeholder="Ulangi password baru">
+        <i class="ti ti-eye-off toggle"></i>
+      </div>
+    </div>
+
+    <button class="btn-change">Ubah password</button>
+  </div>
+
+  <!-- Sesi aktif -->
+  <div class="section">
+    <div class="section-title">Perangkat aktif</div>
+
+    <div class="sec-card" style="padding:14px">
+      <div class="session-item">
+        <div class="sess-icon"><i class="ti ti-device-mobile" style="font-size:18px;color:var(--primary)"></i></div>
+        <div class="sess-info">
+          <div class="sess-device">Samsung Galaxy A54 <span class="sess-current">Ini</span></div>
+          <div class="sess-detail">Pasuruan · Aktif sekarang</div>
+        </div>
+      </div>
+      <div class="session-item">
+        <div class="sess-icon"><i class="ti ti-device-laptop" style="font-size:18px;color:var(--text-secondary)"></i></div>
+        <div class="sess-info">
+          <div class="sess-device">Chrome · Windows</div>
+          <div class="sess-detail">Pasuruan · 2 jam lalu</div>
+        </div>
+        <div class="sess-logout">Keluarkan</div>
+      </div>
+      <div class="session-item">
+        <div class="sess-icon"><i class="ti ti-device-mobile" style="font-size:18px;color:var(--text-secondary)"></i></div>
+        <div class="sess-info">
+          <div class="sess-device">iPhone 13</div>
+          <div class="sess-detail">Surabaya · 3 hari lalu</div>
+        </div>
+        <div class="sess-logout">Keluarkan</div>
+      </div>
+
+      <button class="btn-logout-all">
+        <i class="ti ti-logout" style="font-size:15px"></i>
+        Keluarkan semua perangkat lain
+      </button>
+    </div>
+  </div>
+
+  <!-- Danger zone -->
+  <div class="danger-zone">
+    <div class="dz-title"><i class="ti ti-alert-triangle" style="font-size:14px"></i> Zona berbahaya</div>
+    <div class="dz-sub">Menghapus akun bersifat permanen. Semua data pesanan, chat, dan riwayat akan hilang dan tidak bisa dikembalikan.</div>
+    <button class="dz-btn">Hapus akun saya</button>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.si-toggle').forEach(function(t){
+  t.addEventListener('click', function(){ t.classList.toggle('off'); });
+});
+</script>
+</body>
+</html>
+
+
+

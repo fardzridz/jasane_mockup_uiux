@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Order Success</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device {
+      width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden;
+    }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+
+    .confetti-wrap { position:absolute;top:0;left:0;width:100%;height:220px;overflow:hidden;pointer-events:none;z-index:10 }
+    .dot { position:absolute;border-radius:50%;animation:fall 2.4s ease-in forwards }
+    @keyframes fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(240px) rotate(360deg);opacity:0} }
+
+    .success-wrap { display:flex;flex-direction:column;align-items:center;padding:32px 20px 20px;position:relative;z-index:1 }
+    .success-ring { width:88px;height:88px;border-radius:50%;background:#E1F5EE;border:3px solid #1D9E75;display:flex;align-items:center;justify-content:center;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:0.2s;opacity:0 }
+    @keyframes pop { 0%{transform:scale(0.3);opacity:0} 100%{transform:scale(1);opacity:1} }
+    .success-title { font-size:20px;font-weight:600;color:var(--text-primary);margin-top:16px;animation:slideup 0.4s ease both;animation-delay:0.5s;opacity:0 }
+    .success-sub { font-size:13px;color:var(--text-secondary);margin-top:6px;text-align:center;line-height:1.6;animation:slideup 0.4s ease both;animation-delay:0.65s;opacity:0 }
+    @keyframes slideup { 0%{transform:translateY(12px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+
+    .booking-code-wrap { margin:0 20px 16px;background:var(--primary-surface);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;animation:slideup 0.4s ease both;animation-delay:0.8s;opacity:0 }
+    .code-label { font-size:12px;color:var(--primary) }
+    .code-val { font-size:16px;font-weight:600;color:var(--primary-dark);letter-spacing:0.04em }
+    .copy-btn { display:flex;align-items:center;gap:5px;font-size:12px;color:var(--primary);background:var(--primary-border);padding:5px 12px;border-radius:20px;cursor:pointer;border:none;font-weight:500 }
+
+    .info-card { margin:0 20px 14px;border:1px solid var(--border-tertiary);border-radius:14px;overflow:hidden;animation:slideup 0.4s ease both;animation-delay:0.95s;opacity:0 }
+    .info-row { display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border-tertiary) }
+    .info-row:last-child { border-bottom:none }
+    .info-icon { width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .info-label { font-size:12px;color:var(--text-secondary);flex:1 }
+    .info-val { font-size:13px;font-weight:600;color:var(--text-primary);text-align:right;max-width:55% }
+
+    .mitra-strip { margin:0 20px 16px;display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg-secondary);border-radius:12px;animation:slideup 0.4s ease both;animation-delay:1.1s;opacity:0 }
+    .mitra-av { width:40px;height:40px;border-radius:50%;background:var(--primary-surface);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0 }
+    .mitra-info { flex:1 }
+    .mitra-name { font-size:13px;font-weight:600;color:var(--text-primary) }
+    .mitra-job { font-size:11px;color:var(--text-secondary) }
+    .chat-btn { display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--primary);background:var(--primary-surface);padding:6px 12px;border-radius:20px;cursor:pointer;border:none }
+
+    .timeline { margin:0 20px 16px;animation:slideup 0.4s ease both;animation-delay:1.1s;opacity:0 }
+    .tl-title { font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px }
+    .tl-items { position:relative;padding-left:22px }
+    .tl-line { position:absolute;left:8px;top:10px;bottom:10px;width:2px;background:var(--border-tertiary) }
+    .tl-item { display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;position:relative }
+    .tl-item:last-child { margin-bottom:0 }
+    .tl-dot { width:17px;height:17px;border-radius:50%;flex-shrink:0;position:absolute;left:-22px;display:flex;align-items:center;justify-content:center;border:2px solid var(--border-tertiary);background:var(--bg-primary) }
+    .tl-dot.done { background:#1D9E75;border-color:#1D9E75 }
+    .tl-dot.active { background:var(--primary);border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-surface) }
+    .tl-dot.pending { background:var(--bg-secondary);border-color:var(--border-tertiary) }
+    .tl-step { font-size:13px;font-weight:600;color:var(--text-primary) }
+    .tl-step.muted { color:var(--text-tertiary) }
+    .tl-desc { font-size:11px;color:var(--text-secondary);margin-top:2px }
+
+    .badge-row { display:flex;gap:10px;justify-content:center;padding:0 20px 16px;animation:slideup 0.4s ease both;animation-delay:1.4s;opacity:0 }
+    .trust-badge { display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;padding:12px 10px;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-tertiary) }
+    .trust-icon { font-size:22px }
+    .trust-label { font-size:11px;color:var(--text-secondary);text-align:center;line-height:1.4 }
+
+    .actions { display:flex;flex-direction:column;gap:10px;padding:0 20px 20px;animation:slideup 0.4s ease both;animation-delay:1.25s;opacity:0 }
+    .btn-primary { width:100%;padding:14px;border-radius:12px;border:none;background:var(--primary);font-size:14px;font-weight:600;color:var(--primary-surface);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer }
+    .btn-secondary { width:100%;padding:13px;border-radius:12px;border:1px solid var(--border-secondary);background:transparent;font-size:14px;font-weight:500;color:var(--text-primary);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer }
+    .btn-ghost { width:100%;padding:11px;border-radius:12px;border:none;background:transparent;font-size:13px;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="confetti-wrap" id="confetti"></div>
+
+  <div class="success-wrap">
+    <div class="success-ring" id="ring">
+      <i class="ti ti-circle-check" style="font-size:40px;color:#1D9E75" aria-hidden="true"></i>
+    </div>
+    <div class="success-title">Pesanan berhasil dibuat!</div>
+    <div class="success-sub">Pembayaran diterima. Mitra akan segera<br>mengkonfirmasi jadwal kamu.</div>
+  </div>
+
+  <div class="booking-code-wrap">
+    <div>
+      <div class="code-label">Kode Pesanan</div>
+      <div class="code-val">JSN-20260515-4821</div>
+    </div>
+    <button class="copy-btn" onclick="copyCode(this)">
+      <i class="ti ti-copy" style="font-size:12px" aria-hidden="true"></i> Salin
+    </button>
+  </div>
+
+  <div class="info-card">
+    <div class="info-row">
+      <div class="info-icon" style="background:var(--primary-surface)"><i class="ti ti-tools" style="font-size:16px;color:var(--primary)" aria-hidden="true"></i></div>
+      <span class="info-label">Layanan</span>
+      <span class="info-val">Service rutin AC · 1 unit</span>
+    </div>
+    <div class="info-row">
+      <div class="info-icon" style="background:#E1F5EE"><i class="ti ti-calendar" style="font-size:16px;color:#0F6E56" aria-hidden="true"></i></div>
+      <span class="info-label">Jadwal</span>
+      <span class="info-val">Selasa, 20 Mei 2026 · 11.00</span>
+    </div>
+    <div class="info-row">
+      <div class="info-icon" style="background:#FAEEDA"><i class="ti ti-map-pin" style="font-size:16px;color:#854F0B" aria-hidden="true"></i></div>
+      <span class="info-label">Alamat</span>
+      <span class="info-val">Jl. Veteran No. 12, Pasuruan</span>
+    </div>
+    <div class="info-row">
+      <div class="info-icon" style="background:#FAECE7"><i class="ti ti-receipt" style="font-size:16px;color:#993C1D" aria-hidden="true"></i></div>
+      <span class="info-label">Total bayar</span>
+      <span class="info-val" style="color:#0F6E56;font-size:14px">Rp 80.000</span>
+    </div>
+    <div class="info-row">
+      <div class="info-icon" style="background:#E1F5EE"><i class="ti ti-qrcode" style="font-size:16px;color:#0F6E56" aria-hidden="true"></i></div>
+      <span class="info-label">Pembayaran</span>
+      <span class="info-val" style="display:flex;align-items:center;gap:6px;justify-content:flex-end">
+        <span style="background:#E1F5EE;color:#085041;font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600">LUNAS</span>
+        QRIS
+      </span>
+    </div>
+  </div>
+
+  <div class="mitra-strip">
+    <div class="mitra-av">BU</div>
+    <div class="mitra-info">
+      <div class="mitra-name">Budi Santoso</div>
+      <div class="mitra-job">Teknisi AC · <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i> 4.9</div>
+    </div>
+    <button class="chat-btn"><i class="ti ti-message" style="font-size:13px" aria-hidden="true"></i> Chat</button>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-title">Status pesanan</div>
+    <div class="tl-items">
+      <div class="tl-line"></div>
+      <div class="tl-item">
+        <div class="tl-dot done"><i class="ti ti-check" style="font-size:9px;color:#fff" aria-hidden="true"></i></div>
+        <div>
+          <div class="tl-step">Pesanan dibuat</div>
+          <div class="tl-desc">Hari ini, 09.41 WIB</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"><i class="ti ti-check" style="font-size:9px;color:#fff" aria-hidden="true"></i></div>
+        <div>
+          <div class="tl-step">Pembayaran diterima</div>
+          <div class="tl-desc">Hari ini, 09.43 WIB · QRIS</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot active"></div>
+        <div>
+          <div class="tl-step">Menunggu konfirmasi mitra</div>
+          <div class="tl-desc">Biasanya dalam 15–30 menit</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot pending"></div>
+        <div>
+          <div class="tl-step muted">Mitra dalam perjalanan</div>
+          <div class="tl-desc">Sel, 20 Mei · 10.30 WIB</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot pending"></div>
+        <div>
+          <div class="tl-step muted">Pengerjaan selesai</div>
+          <div class="tl-desc">Estimasi ±60 menit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="badge-row">
+    <div class="trust-badge">
+      <span class="trust-icon"><i class="ti ti-shield-check" style="color:#1D9E75" aria-hidden="true"></i></span>
+      <span class="trust-label">Garansi<br>30 hari</span>
+    </div>
+    <div class="trust-badge">
+      <span class="trust-icon"><i class="ti ti-lock" style="color:var(--primary)" aria-hidden="true"></i></span>
+      <span class="trust-label">Dana<br>aman escrow</span>
+    </div>
+    <div class="trust-badge">
+      <span class="trust-icon"><i class="ti ti-headset" style="color:#BA7517" aria-hidden="true"></i></span>
+      <span class="trust-label">Support<br>24 jam</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-clipboard-list" style="font-size:16px" aria-hidden="true"></i>
+      Lihat detail pesanan
+    </button>
+    <button class="btn-secondary" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-list" style="font-size:16px" aria-hidden="true"></i>
+      Semua pesanan saya
+    </button>
+    <button class="btn-ghost" onclick="window.location.href='jasane_home_mockup.html'">
+      <i class="ti ti-home" style="font-size:15px" aria-hidden="true"></i>
+      Kembali ke beranda
+    </button>
+  </div>
+
+</div>
+
+<script>
+setTimeout(function() {
+  var wrap = document.getElementById('confetti');
+  var colors = ['#4DA6FF','#1D9E75','#BA7517','#D85A30','#99CEFF','#9FE1CB'];
+  for (var i = 0; i < 28; i++) {
+    var d = document.createElement('div');
+    var size = Math.random() * 7 + 5;
+    d.className = 'dot';
+    d.style.cssText = 'width:'+size+'px;height:'+size+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';left:'+Math.random()*100+'%;animation-delay:'+Math.random()*0.8+'s;animation-duration:'+(1.8+Math.random()*1.2)+'s;opacity:0.85';
+    wrap.appendChild(d);
+  }
+  setTimeout(function() { wrap.innerHTML = ''; }, 3200);
+}, 300);
+
+function copyCode(btn) {
+  btn.innerHTML = '<i class="ti ti-check" style="font-size:12px"></i> Disalin!';
+  btn.style.background = '#E1F5EE';
+  btn.style.color = '#085041';
+  setTimeout(function() {
+    btn.innerHTML = '<i class="ti ti-copy" style="font-size:12px"></i> Salin';
+    btn.style.background = '#99CEFF';
+    btn.style.color = '#0084FF';
+  }, 2000);
+}
+</script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Onboarding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: var(--bg-primary); height: 100%; width: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; height: 100%; max-width: 430px; margin: 0 auto; background: var(--bg-primary); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+
+    .skip-btn { font-size:13px;color:var(--text-secondary);cursor:pointer;font-weight:500;padding:6px 12px;border-radius:20px }
+    .skip-btn:active { background:var(--bg-secondary) }
+
+    /* Slides container */
+    .slides-wrap { flex:1;position:relative;overflow:hidden }
+    .slides { display:flex;width:300%;height:100%;transition:transform 0.45s cubic-bezier(0.4,0,0.2,1) }
+    .slide { width:calc(100%/3);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center }
+
+    /* Illustration area */
+    .illust {
+      width: 200px; height: 200px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px; position: relative;
+    }
+    .illust-bg {
+      position: absolute; inset: 0; border-radius: 50%;
+      animation: floatBg 4s ease-in-out infinite;
+    }
+    @keyframes floatBg { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .illust-icon {
+      position: relative; z-index: 2;
+      width: 100px; height: 100px; border-radius: 26px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    /* Floating mini icons */
+    .float-icon {
+      position: absolute; width: 38px; height: 38px; border-radius: 10px;
+      background: var(--bg-primary); box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+      animation: floatIcon 3s ease-in-out infinite;
+      z-index: 3;
+    }
+    @keyframes floatIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+    .slide-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; line-height: 1.3; }
+    .slide-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; max-width: 280px; }
+
+    /* Bottom section */
+    .bottom-section { padding: 24px 24px 32px; }
+
+    /* Dots */
+    .dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+    .dot { width: 8px; height: 8px; border-radius: 4px; background: var(--border-tertiary); transition: all 0.3s ease; }
+    .dot.active { width: 28px; background: var(--primary); }
+
+    /* Buttons */
+    .btn-row { display: flex; gap: 10px; }
+    .btn-next {
+      flex: 1; padding: 16px; border-radius: 14px; border: none;
+      background: var(--primary); font-size: 15px; font-weight: 600;
+      color: #fff; cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0,132,255,0.3);
+    }
+    .btn-next:active { transform: scale(0.97); }
+    .btn-back {
+      width: 52px; height: 52px; border-radius: 14px;
+      border: 1px solid var(--border-secondary); background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; transition: all 0.2s ease;
+    }
+    .btn-back:active { background: var(--bg-secondary); }
+    .btn-back.hidden { display: none; }
+
+    /* Login buttons for last step */
+    .login-btns { display: flex; flex-direction: column; gap: 10px; }
+    .btn-login-primary {
+      width: 100%; padding: 16px; border-radius: 14px; border: none;
+      background: var(--primary); font-size: 15px; font-weight: 600;
+      color: #fff; cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,132,255,0.3);
+    }
+    .btn-login-google {
+      width: 100%; padding: 15px; border-radius: 14px;
+      border: 1px solid var(--border-secondary); background: var(--bg-primary);
+      font-size: 14px; font-weight: 500; color: var(--text-primary);
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-login-skip {
+      width: 100%; padding: 12px; border-radius: 14px; border: none;
+      background: transparent; font-size: 13px; color: var(--text-secondary);
+      cursor: pointer; font-family: inherit; text-align: center;
+    }
+    .google-icon { width: 20px; height: 20px; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div class="skip-btn" id="skipBtn" onclick="goToStep(3)">Lewati</div>
+  </div>
+
+  <div class="slides-wrap">
+    <div class="slides" id="slides">
+
+      <!-- Step 1: Cari Jasa -->
+      <div class="slide">
+        <div class="illust">
+          <div class="illust-bg" style="background:radial-gradient(circle, rgba(0,132,255,0.08) 0%, rgba(0,132,255,0.02) 60%, transparent 100%)"></div>
+          <div class="illust-icon" style="background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)">
+            <i class="ti ti-search" style="font-size:44px;color:#fff"></i>
+          </div>
+          <div class="float-icon" style="top:20px;right:20px;animation-delay:0s">
+            <i class="ti ti-air-conditioning" style="font-size:20px;color:var(--primary)"></i>
+          </div>
+          <div class="float-icon" style="bottom:30px;left:10px;animation-delay:0.5s">
+            <i class="ti ti-wash" style="font-size:20px;color:#854F0B"></i>
+          </div>
+          <div class="float-icon" style="top:50px;left:5px;animation-delay:1s">
+            <i class="ti ti-plug" style="font-size:20px;color:#0F6E56"></i>
+          </div>
+        </div>
+        <div class="slide-title">Temukan jasa<br>di sekitarmu</div>
+        <div class="slide-desc">Cari teknisi AC, cleaning, elektronik, dan berbagai jasa rumah tangga terdekat dari lokasimu. Semua mitra terverifikasi.</div>
+      </div>
+
+      <!-- Step 2: Pesan Instan -->
+      <div class="slide">
+        <div class="illust">
+          <div class="illust-bg" style="background:radial-gradient(circle, rgba(29,158,117,0.08) 0%, rgba(29,158,117,0.02) 60%, transparent 100%)"></div>
+          <div class="illust-icon" style="background:linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%)">
+            <i class="ti ti-calendar-check" style="font-size:44px;color:#fff"></i>
+          </div>
+          <div class="float-icon" style="top:15px;left:25px;animation-delay:0.3s">
+            <i class="ti ti-clock" style="font-size:20px;color:#854F0B"></i>
+          </div>
+          <div class="float-icon" style="bottom:20px;right:15px;animation-delay:0.8s">
+            <i class="ti ti-credit-card" style="font-size:20px;color:var(--primary)"></i>
+          </div>
+          <div class="float-icon" style="top:60px;right:5px;animation-delay:1.3s">
+            <i class="ti ti-bolt" style="font-size:20px;color:#BA7517"></i>
+          </div>
+        </div>
+        <div class="slide-title">Pesan instan,<br>tanpa ribet</div>
+        <div class="slide-desc">Pilih jadwal, bayar langsung, dan slot otomatis terkunci. Tanpa menunggu konfirmasi — langsung terjadwal.</div>
+      </div>
+
+      <!-- Step 3: Aman & Terjamin -->
+      <div class="slide">
+        <div class="illust">
+          <div class="illust-bg" style="background:radial-gradient(circle, rgba(186,117,23,0.08) 0%, rgba(186,117,23,0.02) 60%, transparent 100%)"></div>
+          <div class="illust-icon" style="background:linear-gradient(135deg, #BA7517 0%, #854F0B 100%)">
+            <i class="ti ti-shield-check" style="font-size:44px;color:#fff"></i>
+          </div>
+          <div class="float-icon" style="top:25px;right:30px;animation-delay:0.2s">
+            <i class="ti ti-lock" style="font-size:20px;color:var(--primary)"></i>
+          </div>
+          <div class="float-icon" style="bottom:25px;left:20px;animation-delay:0.7s">
+            <i class="ti ti-star" style="font-size:20px;color:#BA7517"></i>
+          </div>
+          <div class="float-icon" style="top:55px;left:10px;animation-delay:1.2s">
+            <i class="ti ti-cash" style="font-size:20px;color:#0F6E56"></i>
+          </div>
+        </div>
+        <div class="slide-title">Aman dengan<br>garansi escrow</div>
+        <div class="slide-desc">Pembayaranmu ditahan 24 jam. Uang kembali jika mitra tidak datang atau pekerjaan tidak selesai. 100% aman.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="dots" id="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- Navigation buttons (step 1 & 2) -->
+    <div class="btn-row" id="navBtns">
+      <button class="btn-back hidden" id="backBtn" onclick="prevStep()">
+        <i class="ti ti-arrow-left" style="font-size:20px;color:var(--text-secondary)"></i>
+      </button>
+      <button class="btn-next" id="nextBtn" onclick="nextStep()">
+        <span id="nextLabel">Lanjut</span>
+        <i class="ti ti-arrow-right" style="font-size:18px"></i>
+      </button>
+    </div>
+
+    <!-- Login buttons (step 3) -->
+    <div class="login-btns" id="loginBtns" style="display:none">
+      <button class="btn-login-primary" onclick="window.location.href='jasane_register_mockup.html'">
+        <i class="ti ti-mail" style="font-size:18px"></i>
+        Daftar dengan email
+      </button>
+      <button class="btn-login-google" onclick="window.location.href='jasane_home_mockup.html'">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Lanjut dengan Google
+      </button>
+      <button class="btn-login-skip" onclick="window.location.href='jasane_login_mockup.html'">
+        Sudah punya akun? <b style="color:var(--primary)">Masuk</b>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var step = 0;
+var slides = document.getElementById('slides');
+var dots = document.querySelectorAll('.dot');
+var backBtn = document.getElementById('backBtn');
+var nextBtn = document.getElementById('nextBtn');
+var nextLabel = document.getElementById('nextLabel');
+var navBtns = document.getElementById('navBtns');
+var loginBtns = document.getElementById('loginBtns');
+var skipBtn = document.getElementById('skipBtn');
+
+function updateUI() {
+  slides.style.transform = 'translateX(-' + (step * 33.333) + '%)';
+  dots.forEach(function(d, i) {
+    d.classList.toggle('active', i === step);
+  });
+
+  if (step === 0) {
+    backBtn.classList.add('hidden');
+  } else {
+    backBtn.classList.remove('hidden');
+  }
+
+  if (step === 2) {
+    navBtns.style.display = 'none';
+    loginBtns.style.display = 'flex';
+    skipBtn.style.display = 'none';
+  } else {
+    navBtns.style.display = 'flex';
+    loginBtns.style.display = 'none';
+    skipBtn.style.display = 'block';
+    nextLabel.textContent = 'Lanjut';
+  }
+}
+
+function nextStep() {
+  if (step < 2) { step++; updateUI(); }
+}
+
+function prevStep() {
+  if (step > 0) { step--; updateUI(); }
+}
+
+function goToStep(s) {
+  step = Math.min(s, 2);
+  updateUI();
+}
+
+// Swipe support
+var startX = 0;
+var slidesWrap = document.querySelector('.slides-wrap');
+slidesWrap.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; });
+slidesWrap.addEventListener('touchend', function(e) {
+  var diff = startX - e.changedTouches[0].clientX;
+  if (diff > 50) nextStep();
+  else if (diff < -50) prevStep();
+});
+
+updateUI();
+</script>
+</body>
+</html>

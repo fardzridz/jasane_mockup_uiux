@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Profil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+
+    .header-bg { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);padding:14px 20px 60px;color:#fff;position:relative }
+    .header-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:18px }
+    .header-title { font-size:17px;font-weight:600 }
+    .header-icon { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px) }
+
+    .profile-card { margin:-50px 20px 0;background:var(--bg-primary);border-radius:16px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,0.08);position:relative }
+    .profile-row { display:flex;align-items:center;gap:14px }
+    .p-avatar { width:64px;height:64px;border-radius:18px;background:var(--primary-surface);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;flex-shrink:0;position:relative }
+    .p-avatar-edit { position:absolute;bottom:-2px;right:-2px;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--bg-primary);cursor:pointer }
+    .p-name { font-size:17px;font-weight:600;color:var(--text-primary);margin-bottom:3px;display:flex;align-items:center;gap:6px }
+    .p-email { font-size:12px;color:var(--text-secondary);margin-bottom:6px }
+    .p-phone { font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:4px }
+    .edit-profile-btn { position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border-tertiary) }
+
+    .stat-row { display:flex;gap:0;border-top:1px solid var(--border-tertiary);margin-top:16px;padding-top:14px }
+    .stat-item { flex:1;text-align:center;border-right:1px solid var(--border-tertiary);padding:0 8px }
+    .stat-item:last-child { border-right:none }
+    .stat-val { font-size:17px;font-weight:600;color:var(--text-primary);line-height:1 }
+    .stat-label { font-size:11px;color:var(--text-secondary);margin-top:5px }
+
+    /* Mitra upgrade card */
+    .upgrade-card { margin:14px 20px 0;background:linear-gradient(135deg, #FAEEDA 0%, #FFE7C4 100%);border:1px solid #F5D89A;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer }
+    .uc-icon { width:46px;height:46px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .uc-info { flex:1 }
+    .uc-title { font-size:13px;font-weight:600;color:#633806;margin-bottom:2px;display:flex;align-items:center;gap:5px }
+    .uc-sub { font-size:11px;color:#854F0B;line-height:1.4 }
+    .uc-arrow { color:#633806 }
+
+    /* Sections */
+    .section { margin-top:18px }
+    .section-title { font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-tertiary);font-weight:600;padding:0 20px;margin-bottom:8px }
+    .menu-list { background:var(--bg-primary);margin:0 20px;border:1px solid var(--border-tertiary);border-radius:14px;overflow:hidden }
+    .menu-item { display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border-tertiary);cursor:pointer }
+    .menu-item:last-child { border-bottom:none }
+    .menu-item:active { background:var(--bg-secondary) }
+    .mi-icon { width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .mi-label { flex:1;font-size:13px;color:var(--text-primary);font-weight:500 }
+    .mi-sub { font-size:11px;color:var(--text-tertiary);margin-top:2px }
+    .mi-right { font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:6px }
+    .mi-badge { background:#E24B4A;color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px }
+    .mi-chevron { font-size:18px;color:var(--text-tertiary) }
+    .mi-toggle { width:38px;height:22px;background:var(--primary);border-radius:20px;position:relative;cursor:pointer }
+    .mi-toggle::after { content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.2) }
+    .mi-toggle.off { background:var(--border-secondary) }
+    .mi-toggle.off::after { right:auto;left:2px }
+
+    .menu-item.danger .mi-label { color:#E24B4A }
+    .menu-item.danger .mi-icon { background:#FAECE7 }
+
+    .version-info { text-align:center;padding:20px;font-size:11px;color:var(--text-tertiary) }
+    .version-info b { color:var(--primary);font-weight:600 }
+
+    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50;margin-top:auto }
+    .nav-item { display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--text-tertiary);cursor:pointer;min-width:52px }
+    .nav-item.active { color:var(--primary) }
+    .nav-dot { width:5px;height:5px;border-radius:50%;background:var(--primary-light);margin-top:1px }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="header-bg">
+    <div class="header-top">
+      <div class="header-title">Profil</div>
+      <div style="display:flex;gap:8px">
+        <div class="header-icon"><i class="ti ti-bell" style="font-size:17px;color:#fff"></i></div>
+        <div class="header-icon"><i class="ti ti-settings" style="font-size:17px;color:#fff"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="edit-profile-btn"><i class="ti ti-pencil" style="font-size:14px;color:var(--text-secondary)"></i></div>
+    <div class="profile-row">
+      <div class="p-avatar">
+        MF
+        <div class="p-avatar-edit"><i class="ti ti-camera" style="font-size:11px"></i></div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="p-name">Muhammad Farid</div>
+        <div class="p-email">farid@email.com</div>
+        <div class="p-phone"><i class="ti ti-phone" style="font-size:11px"></i> +62 812-3456-7890</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-val">14</div>
+        <div class="stat-label">Pesanan</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" style="color:#BA7517">4.9</div>
+        <div class="stat-label"><i class="ti ti-star-filled" style="font-size:10px"></i> Rating beri</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" style="color:#1D9E75">320</div>
+        <div class="stat-label">Poin reward</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upgrade ke Mitra Card -->
+  <div class="upgrade-card">
+    <div class="uc-icon">
+      <i class="ti ti-tools" style="font-size:22px;color:#854F0B"></i>
+    </div>
+    <div class="uc-info">
+      <div class="uc-title">Daftar jadi mitra <i class="ti ti-sparkles" style="font-size:13px;color:#BA7517"></i></div>
+      <div class="uc-sub">Punya keahlian? Mulai jualan jasa di JASAne dan dapatkan penghasilan tambahan</div>
+    </div>
+    <i class="ti ti-chevron-right uc-arrow" style="font-size:20px"></i>
+  </div>
+
+  <!-- Akun -->
+  <div class="section">
+    <div class="section-title">Akun saya</div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="window.location.href='jasane_profile_info_mockup.html'">
+        <div class="mi-icon" style="background:var(--primary-surface)"><i class="ti ti-user" style="font-size:17px;color:var(--primary)"></i></div>
+        <div class="mi-label">Informasi pribadi</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item" onclick="window.location.href='jasane_profile_address_mockup.html'">
+        <div class="mi-icon" style="background:#FAEEDA"><i class="ti ti-map-pin" style="font-size:17px;color:#854F0B"></i></div>
+        <div>
+          <div class="mi-label">Alamat tersimpan</div>
+          <div class="mi-sub">3 alamat</div>
+        </div>
+        <div style="flex:1"></div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item" onclick="window.location.href='jasane_profile_payment_mockup.html'">
+        <div class="mi-icon" style="background:#E1F5EE"><i class="ti ti-credit-card" style="font-size:17px;color:#0F6E56"></i></div>
+        <div>
+          <div class="mi-label">Metode pembayaran</div>
+          <div class="mi-sub">QRIS, BCA, GoPay</div>
+        </div>
+        <div style="flex:1"></div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item" onclick="window.location.href='jasane_profile_security_mockup.html'">
+        <div class="mi-icon" style="background:#FAECE7"><i class="ti ti-lock" style="font-size:17px;color:#993C1D"></i></div>
+        <div class="mi-label">Keamanan & password</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aktivitas -->
+  <div class="section">
+    <div class="section-title">Aktivitas & promo</div>
+    <div class="menu-list">
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#FAEEDA"><i class="ti ti-ticket" style="font-size:17px;color:#854F0B"></i></div>
+        <div>
+          <div class="mi-label">Voucher saya</div>
+          <div class="mi-sub">3 voucher aktif</div>
+        </div>
+        <div style="flex:1"></div>
+        <span class="mi-badge">Baru</span>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:var(--primary-surface)"><i class="ti ti-gift" style="font-size:17px;color:var(--primary)"></i></div>
+        <div>
+          <div class="mi-label">Poin reward</div>
+          <div class="mi-sub">320 poin tersedia</div>
+        </div>
+        <div style="flex:1"></div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#EAF3DE"><i class="ti ti-users" style="font-size:17px;color:#3B6D11"></i></div>
+        <div>
+          <div class="mi-label">Undang teman</div>
+          <div class="mi-sub">Dapat Rp 25rb per teman</div>
+        </div>
+        <div style="flex:1"></div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#F1EFE8"><i class="ti ti-history" style="font-size:17px;color:#5F5E5A"></i></div>
+        <div class="mi-label">Riwayat pesanan</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preferensi -->
+  <div class="section">
+    <div class="section-title">Preferensi</div>
+    <div class="menu-list">
+      <div class="menu-item">
+        <div class="mi-icon" style="background:var(--primary-surface)"><i class="ti ti-bell" style="font-size:17px;color:var(--primary)"></i></div>
+        <div class="mi-label">Notifikasi</div>
+        <div class="mi-toggle"></div>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#F1EFE8"><i class="ti ti-moon" style="font-size:17px;color:#5F5E5A"></i></div>
+        <div class="mi-label">Mode gelap</div>
+        <div class="mi-toggle off"></div>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#FAEEDA"><i class="ti ti-language" style="font-size:17px;color:#854F0B"></i></div>
+        <div class="mi-label">Bahasa</div>
+        <div class="mi-right">Indonesia <i class="ti ti-chevron-right mi-chevron"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bantuan -->
+  <div class="section">
+    <div class="section-title">Bantuan</div>
+    <div class="menu-list">
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#E1F5EE"><i class="ti ti-headset" style="font-size:17px;color:#0F6E56"></i></div>
+        <div class="mi-label">Pusat bantuan</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:var(--primary-surface)"><i class="ti ti-message-circle" style="font-size:17px;color:var(--primary)"></i></div>
+        <div class="mi-label">Hubungi support 24 jam</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#F1EFE8"><i class="ti ti-file-text" style="font-size:17px;color:#5F5E5A"></i></div>
+        <div class="mi-label">Syarat & ketentuan</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+      <div class="menu-item">
+        <div class="mi-icon" style="background:#F1EFE8"><i class="ti ti-shield" style="font-size:17px;color:#5F5E5A"></i></div>
+        <div class="mi-label">Kebijakan privasi</div>
+        <i class="ti ti-chevron-right mi-chevron"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout -->
+  <div class="section" style="margin-bottom:8px">
+    <div class="menu-list">
+      <div class="menu-item danger">
+        <div class="mi-icon"><i class="ti ti-logout" style="font-size:17px;color:#E24B4A"></i></div>
+        <div class="mi-label">Keluar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="version-info">
+    <b>JASAne</b> v1.0.0 · Build 2026.05.15
+  </div>
+
+  <div class="navbar">
+    <div class="nav-item" onclick="window.location.href='jasane_home_mockup.html'">
+      <i class="ti ti-home" style="font-size:22px"></i>
+      <span>Beranda</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_search_mockup.html'">
+      <i class="ti ti-search" style="font-size:22px"></i>
+      <span>Cari</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-clipboard-list" style="font-size:22px"></i>
+      <span>Pesanan</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_chat_mockup.html'">
+      <i class="ti ti-message" style="font-size:22px"></i>
+      <span>Chat</span>
+    </div>
+    <div class="nav-item active">
+      <i class="ti ti-user-filled" style="font-size:22px"></i>
+      <span>Profil</span>
+      <div class="nav-dot"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.mi-toggle').forEach(function(t){
+  t.addEventListener('click', function(){ t.classList.toggle('off'); });
+});
+</script>
+</body>
+</html>
+
+
+
+

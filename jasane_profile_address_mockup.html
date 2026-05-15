@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Alamat Tersimpan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    .address-list { padding:0 20px;flex:1 }
+
+    .address-card { border:1px solid var(--border-tertiary);border-radius:14px;padding:14px;margin-bottom:12px;position:relative }
+    .address-card.primary { border-color:var(--primary);background:var(--primary-surface) }
+    .ac-header { display:flex;align-items:center;gap:8px;margin-bottom:8px }
+    .ac-label { font-size:12px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:5px }
+    .ac-label i { font-size:14px }
+    .ac-badge { font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px }
+    .ac-badge.main { background:var(--primary);color:#fff }
+    .ac-badge.other { background:var(--bg-secondary);color:var(--text-secondary) }
+    .ac-actions { margin-left:auto;display:flex;gap:6px }
+    .ac-action-btn { width:28px;height:28px;border-radius:8px;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-primary) }
+    .ac-action-btn:active { background:var(--bg-secondary) }
+
+    .ac-name { font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:3px }
+    .ac-phone { font-size:12px;color:var(--text-secondary);margin-bottom:6px }
+    .ac-address { font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:8px }
+    .ac-detail { font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px }
+
+    .ac-map-preview { width:100%;height:80px;border-radius:10px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--text-tertiary);cursor:pointer }
+    .ac-map-preview:active { background:var(--border-tertiary) }
+
+    .btn-add { width:100%;padding:14px;border-radius:14px;border:1.5px dashed var(--border-secondary);background:transparent;font-size:14px;font-weight:600;color:var(--primary);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;margin-bottom:20px }
+    .btn-add:active { background:var(--primary-surface);border-color:var(--primary) }
+
+    .info-note { display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--bg-secondary);border-radius:12px;margin:0 20px 20px }
+    .info-note i { font-size:15px;color:var(--text-tertiary);flex-shrink:0;margin-top:1px }
+    .info-note span { font-size:11px;color:var(--text-secondary);line-height:1.5 }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px"></i>
+      <i class="ti ti-battery" style="font-size:14px"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_profile_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Alamat tersimpan</span>
+    <div style="width:36px"></div>
+  </div>
+
+  <div class="address-list">
+
+    <!-- Alamat utama -->
+    <div class="address-card primary">
+      <div class="ac-header">
+        <div class="ac-label"><i class="ti ti-home"></i> Rumah</div>
+        <span class="ac-badge main">Utama</span>
+        <div class="ac-actions">
+          <div class="ac-action-btn"><i class="ti ti-pencil" style="font-size:13px;color:var(--text-secondary)"></i></div>
+        </div>
+      </div>
+      <div class="ac-name">Muhammad Farid</div>
+      <div class="ac-phone">+62 812-3456-7890</div>
+      <div class="ac-address">Jl. Veteran No. 12, RT 03/RW 02, Kel. Trajeng, Kec. Panggungrejo, Kota Pasuruan, Jawa Timur 67126</div>
+      <div class="ac-detail">
+        <i class="ti ti-note" style="font-size:12px"></i>
+        Patokan: Pagar hijau sebelah warung Bu Tini
+      </div>
+      <div class="ac-map-preview">
+        <i class="ti ti-map-pin" style="font-size:16px;color:var(--primary)"></i>
+        Lihat di peta
+      </div>
+    </div>
+
+    <!-- Alamat kantor -->
+    <div class="address-card">
+      <div class="ac-header">
+        <div class="ac-label"><i class="ti ti-building"></i> Kantor</div>
+        <span class="ac-badge other">Lainnya</span>
+        <div class="ac-actions">
+          <div class="ac-action-btn"><i class="ti ti-pencil" style="font-size:13px;color:var(--text-secondary)"></i></div>
+          <div class="ac-action-btn"><i class="ti ti-trash" style="font-size:13px;color:#E24B4A"></i></div>
+        </div>
+      </div>
+      <div class="ac-name">Muhammad Farid</div>
+      <div class="ac-phone">+62 812-3456-7890</div>
+      <div class="ac-address">Jl. Panglima Sudirman No. 45, Kel. Purworejo, Kec. Purworejo, Kota Pasuruan, Jawa Timur 67115</div>
+      <div class="ac-detail">
+        <i class="ti ti-note" style="font-size:12px"></i>
+        Lantai 2, Gedung A
+      </div>
+    </div>
+
+    <!-- Alamat orang tua -->
+    <div class="address-card">
+      <div class="ac-header">
+        <div class="ac-label"><i class="ti ti-heart"></i> Orang tua</div>
+        <span class="ac-badge other">Lainnya</span>
+        <div class="ac-actions">
+          <div class="ac-action-btn"><i class="ti ti-pencil" style="font-size:13px;color:var(--text-secondary)"></i></div>
+          <div class="ac-action-btn"><i class="ti ti-trash" style="font-size:13px;color:#E24B4A"></i></div>
+        </div>
+      </div>
+      <div class="ac-name">Hj. Siti Aminah</div>
+      <div class="ac-phone">+62 856-7890-1234</div>
+      <div class="ac-address">Jl. Raya Wonorejo No. 88, Kel. Wonorejo, Kec. Gondangwetan, Kab. Pasuruan, Jawa Timur 67174</div>
+      <div class="ac-detail">
+        <i class="ti ti-note" style="font-size:12px"></i>
+        Rumah warna kuning, depan musholla
+      </div>
+    </div>
+
+    <!-- Tombol tambah -->
+    <button class="btn-add">
+      <i class="ti ti-plus" style="font-size:18px"></i>
+      Tambah alamat baru
+    </button>
+
+  </div>
+
+  <div class="info-note">
+    <i class="ti ti-info-circle"></i>
+    <span>Alamat utama akan otomatis terisi saat kamu memesan jasa. Kamu bisa mengubahnya saat proses booking.</span>
+  </div>
+
+</div>
+</body>
+</html>
+
+
+

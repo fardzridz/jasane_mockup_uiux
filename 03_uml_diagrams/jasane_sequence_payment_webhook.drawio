@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net" modified="2026-05-15T00:00:00.000Z" agent="Kiro" version="24.0.0">
+  <diagram name="Sequence - Payment Webhook & Escrow" id="seq-webhook">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Sequence Diagram: Xendit Webhook → Escrow → Auto-Release (24h)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Actors/Objects -->
+        <mxCell id="obj-xendit" value="Xendit" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-webhook" value="Edge Function&#xa;(xendit-webhook)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-db" value="PostgreSQL" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-realtime" value="Supabase Realtime" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-user" value="User App" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-cron" value="Cron Job&#xa;(Scheduled)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="80" width="140" height="840" as="geometry" />
+        </mxCell>
+        
+        <!-- Phase 1: Webhook Received -->
+        <mxCell id="phase1" value="PHASE 1: Payment Success Webhook" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;width=280;height=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="1000" height="280" as="geometry" />
+        </mxCell>
+        
+        <!-- 1. Xendit sends webhook -->
+        <mxCell id="msg01" value="1: POST /xendit-webhook&#xa;{status: 'PAID', id: 'inv_xxx', ...}" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-xendit" target="obj-webhook">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="200" as="sourcePoint" />
+            <mxPoint x="350" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Verify webhook token -->
+        <mxCell id="msg02" value="2: Verify x-callback-token" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="230" as="sourcePoint" />
+            <mxPoint x="350" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. Update payment status -->
+        <mxCell id="msg03" value="3: UPDATE payments SET status='paid', paid_at=NOW(), xendit_raw=? WHERE xendit_invoice_id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-webhook" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="280" as="sourcePoint" />
+            <mxPoint x="550" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg04" value="4: {booking_id}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-webhook">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="310" as="sourcePoint" />
+            <mxPoint x="350" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Update booking status -->
+        <mxCell id="msg05" value="5: UPDATE bookings SET status='paid' WHERE id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-webhook" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="340" as="sourcePoint" />
+            <mxPoint x="550" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6. Create earnings with escrow -->
+        <mxCell id="msg06" value="6: INSERT INTO mitra_earnings&#xa;(status='pending', escrow_release_at=NOW() + INTERVAL '24 hours')" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-webhook" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="380" as="sourcePoint" />
+            <mxPoint x="550" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7. Realtime broadcast -->
+        <mxCell id="msg07" value="7: Broadcast booking status change" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-realtime">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="420" as="sourcePoint" />
+            <mxPoint x="750" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg08" value="8: UI update (status: paid)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-realtime" target="obj-user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="420" as="sourcePoint" />
+            <mxPoint x="950" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Phase 2: Escrow Period -->
+        <mxCell id="phase2" value="PHASE 2: Escrow Period (24 Hours Hold)" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;width=280;height=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="1000" height="180" as="geometry" />
+        </mxCell>
+        
+        <!-- Note about escrow -->
+        <mxCell id="note01" value="⏳ Dana ditahan 24 jam untuk&#xa;Service Protection Window.&#xa;Pelanggan bisa ajukan dispute&#xa;jika layanan tidak sesuai." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="500" width="240" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Optional: User confirms or disputes -->
+        <mxCell id="msg09" value="9: [OPTIONAL] User tap 'Konfirmasi Selesai'" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;dashed=1;" edge="1" parent="1" source="obj-user" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="950" y="540" as="sourcePoint" />
+            <mxPoint x="550" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg10" value="10: UPDATE mitra_earnings SET status='available' WHERE booking_id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="570" as="sourcePoint" />
+            <mxPoint x="550" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg11" value="11: [OPTIONAL] User tap 'Ajukan Dispute'" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;dashed=1;" edge="1" parent="1" source="obj-user" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="950" y="610" as="sourcePoint" />
+            <mxPoint x="550" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Phase 3: Auto-Release -->
+        <mxCell id="phase3" value="PHASE 3: Auto-Release (After 24h)" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;width=280;height=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="1000" height="220" as="geometry" />
+        </mxCell>
+        
+        <!-- 12. Cron job runs -->
+        <mxCell id="msg12" value="12: Cron job runs every hour" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="700" as="sourcePoint" />
+            <mxPoint x="1150" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 13. Query expired escrow -->
+        <mxCell id="msg13" value="13: SELECT * FROM mitra_earnings&#xa;WHERE status='pending' AND escrow_release_at &lt; NOW() AND is_disputed=false" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-cron" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="750" as="sourcePoint" />
+            <mxPoint x="550" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg14" value="14: [{earning_id, mitra_id, net_amount}, ...]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-cron">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="780" as="sourcePoint" />
+            <mxPoint x="1150" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 15. Update to available -->
+        <mxCell id="msg15" value="15: UPDATE mitra_earnings SET status='available' WHERE id IN (...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-cron" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="810" as="sourcePoint" />
+            <mxPoint x="550" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 16. Notify mitra -->
+        <mxCell id="msg16" value="16: INSERT INTO notifications (type='earnings_available', ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-cron" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="840" as="sourcePoint" />
+            <mxPoint x="550" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Notes -->
+        <mxCell id="note02" value="✅ Auto-Release:&#xa;Dana otomatis available&#xa;setelah 24 jam jika tidak&#xa;ada dispute." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="100" y="890" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="note03" value="🔒 Security:&#xa;Webhook token verified.&#xa;Prevent fake payment." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="340" y="890" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

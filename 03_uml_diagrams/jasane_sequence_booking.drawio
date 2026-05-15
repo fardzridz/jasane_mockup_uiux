@@ -1,0 +1,310 @@
+<mxfile host="app.diagrams.net" modified="2026-05-15T00:00:00.000Z" agent="Kiro" version="24.0.0">
+  <diagram name="Sequence - Instant Booking Flow" id="seq-booking">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Sequence Diagram: Instant Booking Flow (End-to-End)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Actors/Objects -->
+        <mxCell id="actor-user" value="User (Flutter App)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-supabase" value="Supabase Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-edge-fn" value="Edge Function&#xa;(create-booking)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-db" value="PostgreSQL&#xa;(Database)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-xendit" value="Xendit API" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="obj-fcm" value="FCM&#xa;(Push Notif)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="actor-mitra" value="Mitra (Flutter App)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="80" width="140" height="1240" as="geometry" />
+        </mxCell>
+        
+        <!-- Messages -->
+        <!-- 1. User selects service & slot -->
+        <mxCell id="msg01" value="1: Pilih layanan + slot + isi detail" style="html=1;verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="150" y="180" as="sourcePoint" />
+            <mxPoint x="150" y="200" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. User taps Bayar -->
+        <mxCell id="msg02" value="2: Tap 'Bayar'" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="actor-user" target="obj-supabase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="220" as="sourcePoint" />
+            <mxPoint x="350" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. Call Edge Function -->
+        <mxCell id="msg03" value="3: supabase.functions.invoke('create-booking', {data})" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-supabase" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="250" as="sourcePoint" />
+            <mxPoint x="550" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Verify JWT -->
+        <mxCell id="msg04" value="4: Verify JWT token" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="280" as="sourcePoint" />
+            <mxPoint x="550" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Query mitra availability -->
+        <mxCell id="msg05" value="5: SELECT * FROM mitra_profiles WHERE id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="320" as="sourcePoint" />
+            <mxPoint x="750" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg06" value="6: {is_verified: true, is_available: true}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="350" as="sourcePoint" />
+            <mxPoint x="550" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7. Check schedule -->
+        <mxCell id="msg07" value="7: SELECT * FROM mitra_schedules WHERE mitra_id=? AND day_of_week=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="380" as="sourcePoint" />
+            <mxPoint x="750" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg08" value="8: {schedule available}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="410" as="sourcePoint" />
+            <mxPoint x="550" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 9. Calculate total -->
+        <mxCell id="msg09" value="9: Hitung subtotal + platform_fee (10%)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="440" as="sourcePoint" />
+            <mxPoint x="550" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 10. Insert booking -->
+        <mxCell id="msg10" value="10: INSERT INTO bookings (status='terjadwal', ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="490" as="sourcePoint" />
+            <mxPoint x="750" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg11" value="11: {booking_id, booking_code}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="520" as="sourcePoint" />
+            <mxPoint x="550" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 12. Insert booking_items -->
+        <mxCell id="msg12" value="12: INSERT INTO booking_items (service_id, price, qty, ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="550" as="sourcePoint" />
+            <mxPoint x="750" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 13. Create chat room -->
+        <mxCell id="msg13" value="13: INSERT INTO chat_rooms (booking_id, user_id, mitra_id)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="580" as="sourcePoint" />
+            <mxPoint x="750" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 14. Create Xendit invoice -->
+        <mxCell id="msg14" value="14: POST /v2/invoices {amount, external_id, ...}" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-xendit">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="620" as="sourcePoint" />
+            <mxPoint x="950" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg15" value="15: {invoice_id, invoice_url, expired_at}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-xendit" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="950" y="650" as="sourcePoint" />
+            <mxPoint x="550" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 16. Save payment record -->
+        <mxCell id="msg16" value="16: INSERT INTO payments (xendit_invoice_id, invoice_url, ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="680" as="sourcePoint" />
+            <mxPoint x="750" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 17. Return invoice URL -->
+        <mxCell id="msg17" value="17: {booking_id, invoice_url, total_amount}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-supabase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="710" as="sourcePoint" />
+            <mxPoint x="350" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg18" value="18: Return response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-supabase" target="actor-user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="740" as="sourcePoint" />
+            <mxPoint x="150" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 19. Open WebView -->
+        <mxCell id="msg19" value="19: Open WebView(invoice_url)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="770" as="sourcePoint" />
+            <mxPoint x="950" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 20. User pays -->
+        <mxCell id="msg20" value="20: User bayar via QRIS/Transfer/E-wallet" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="800" as="sourcePoint" />
+            <mxPoint x="950" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 21. Xendit webhook -->
+        <mxCell id="msg21" value="21: POST /functions/v1/xendit-webhook {status: 'PAID', ...}" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-xendit" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="950" y="840" as="sourcePoint" />
+            <mxPoint x="550" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 22. Update payment status -->
+        <mxCell id="msg22" value="22: UPDATE payments SET status='paid', paid_at=NOW() WHERE xendit_invoice_id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="870" as="sourcePoint" />
+            <mxPoint x="750" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 23. Update booking status -->
+        <mxCell id="msg23" value="23: UPDATE bookings SET status='paid' WHERE id=?" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="900" as="sourcePoint" />
+            <mxPoint x="750" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 24. Create earnings record -->
+        <mxCell id="msg24" value="24: INSERT INTO mitra_earnings (mitra_id, net_amount, status='pending', ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="930" as="sourcePoint" />
+            <mxPoint x="750" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 25. Get mitra FCM token -->
+        <mxCell id="msg25" value="25: SELECT fcm_token FROM users WHERE id=(SELECT user_id FROM mitra_profiles WHERE id=?)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="970" as="sourcePoint" />
+            <mxPoint x="750" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg26" value="26: {fcm_token}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=11;" edge="1" parent="1" source="obj-db" target="obj-edge-fn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="1000" as="sourcePoint" />
+            <mxPoint x="550" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 27. Send push notification -->
+        <mxCell id="msg27" value="27: POST /fcm/send {token, title: 'Pesanan masuk!', body: ...}" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-fcm">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="1030" as="sourcePoint" />
+            <mxPoint x="1150" y="1030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 28. FCM delivers to mitra -->
+        <mxCell id="msg28" value="28: Push notification delivered" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-fcm" target="actor-mitra">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="1060" as="sourcePoint" />
+            <mxPoint x="1350" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 29. Insert notification -->
+        <mxCell id="msg29" value="29: INSERT INTO notifications (user_id, type='booking_new', ...)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1" source="obj-edge-fn" target="obj-db">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="1090" as="sourcePoint" />
+            <mxPoint x="750" y="1090" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 30. Realtime broadcast -->
+        <mxCell id="msg30" value="30: Supabase Realtime broadcast (booking status changed)" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;fontStyle=1;" edge="1" parent="1" source="obj-db" target="actor-user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="1130" as="sourcePoint" />
+            <mxPoint x="150" y="1130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 31. UI updates -->
+        <mxCell id="msg31" value="31: UI update → Tampilkan 'Booking Terjadwal'" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="1160" as="sourcePoint" />
+            <mxPoint x="150" y="1180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 32. Mitra opens app -->
+        <mxCell id="msg32" value="32: Mitra buka app → Lihat booking baru" style="html=1;verticalAlign=bottom;endArrow=block;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1350" y="1210" as="sourcePoint" />
+            <mxPoint x="1350" y="1230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Notes -->
+        <mxCell id="note01" value="✅ Instant Booking:&#xa;Slot terkunci otomatis&#xa;setelah payment berhasil.&#xa;Tidak ada approval." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1260" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="note02" value="🔒 Security:&#xa;JWT verified di Edge Function.&#xa;RLS policy aktif di DB." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1260" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="note03" value="💰 Payment Flow:&#xa;Xendit webhook update status.&#xa;Earnings created with escrow." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1260" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

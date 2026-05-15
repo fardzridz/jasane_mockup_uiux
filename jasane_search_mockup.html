@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Cari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;gap:10px;padding:8px 20px 12px }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0 }
+    .search-input { flex:1;display:flex;align-items:center;gap:10px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);border-radius:12px;padding:10px 14px }
+    .search-input input { flex:1;border:none;background:transparent;outline:none;font-size:13px;font-family:'Inter',sans-serif;color:var(--text-primary) }
+    .filter-btn { width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;position:relative }
+    .filter-dot { width:8px;height:8px;border-radius:50%;background:#E24B4A;position:absolute;top:6px;right:6px;border:2px solid var(--bg-primary) }
+
+    .location-row { display:flex;align-items:center;gap:8px;padding:0 20px 12px;font-size:12px;color:var(--text-secondary) }
+    .location-row b { color:var(--text-primary);font-weight:600 }
+
+    .filter-chips { display:flex;gap:8px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none }
+    .filter-chips::-webkit-scrollbar { display:none }
+    .chip { padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border-tertiary);color:var(--text-secondary);background:var(--bg-primary);cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:5px }
+    .chip.active { background:var(--primary);color:#fff;border-color:var(--primary) }
+    .chip.with-icon i { font-size:13px }
+
+    .results-header { display:flex;justify-content:space-between;align-items:center;padding:0 20px 12px }
+    .results-count { font-size:12px;color:var(--text-secondary) }
+    .results-count b { color:var(--text-primary);font-weight:600 }
+    .sort-btn { display:flex;align-items:center;gap:5px;font-size:12px;color:var(--primary);font-weight:500;cursor:pointer }
+
+    .result-list { padding:0 20px 16px;display:flex;flex-direction:column;gap:12px;flex:1 }
+    .result-card { display:flex;gap:12px;padding:14px;border:1px solid var(--border-tertiary);border-radius:14px;cursor:pointer;background:var(--bg-primary) }
+    .result-card:active { background:var(--bg-secondary) }
+    .r-avatar { width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;flex-shrink:0;position:relative }
+    .r-avail-dot { position:absolute;bottom:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#1D9E75;border:2px solid var(--bg-primary) }
+    .r-info { flex:1;min-width:0 }
+    .r-name-row { display:flex;align-items:center;gap:6px;margin-bottom:3px }
+    .r-name { font-size:14px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+    .r-verified { color:#0084FF;font-size:14px;flex-shrink:0 }
+    .r-job { font-size:12px;color:var(--text-secondary);margin-bottom:6px }
+    .r-meta { display:flex;align-items:center;gap:10px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap }
+    .r-meta-item { display:flex;align-items:center;gap:3px }
+    .r-rating { color:#BA7517;font-weight:600 }
+    .r-distance { color:var(--primary);font-weight:500 }
+    .r-price-row { display:flex;justify-content:space-between;align-items:center;margin-top:8px }
+    .r-price { font-size:13px;font-weight:600;color:#085041 }
+    .r-price-from { font-size:10px;color:var(--text-tertiary);font-weight:400 }
+    .r-quick-book { font-size:11px;color:var(--primary);background:var(--primary-surface);padding:4px 10px;border-radius:20px;font-weight:600 }
+
+    .empty-state { padding:40px 20px;text-align:center;display:none }
+    .empty-icon { width:80px;height:80px;border-radius:50%;background:var(--primary-surface);display:flex;align-items:center;justify-content:center;margin:0 auto 14px }
+    .empty-title { font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px }
+    .empty-sub { font-size:12px;color:var(--text-secondary);line-height:1.5 }
+
+    .navbar { display:flex;justify-content:space-around;align-items:center;padding:10px 0 8px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50;margin-top:auto }
+    .nav-item { display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--text-tertiary);cursor:pointer;min-width:52px }
+    .nav-item.active { color:var(--primary) }
+    .nav-dot { width:5px;height:5px;border-radius:50%;background:var(--primary-light);margin-top:1px }
+
+    /* Filter Sheet */
+    .sheet-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;align-items:flex-end;justify-content:center }
+    .sheet-overlay.open { display:flex }
+    .sheet { width:390px;max-width:100%;background:var(--bg-primary);border-radius:20px 20px 0 0;padding:8px 20px 20px;animation:slideUp 0.25s ease }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    .sheet-handle { width:40px;height:4px;background:var(--border-secondary);border-radius:2px;margin:0 auto 16px }
+    .sheet-title { font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:14px }
+    .sheet-section { margin-bottom:16px }
+    .sheet-label { font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px }
+    .sheet-options { display:flex;flex-wrap:wrap;gap:8px }
+    .opt { padding:7px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border-tertiary);color:var(--text-secondary);cursor:pointer;background:var(--bg-primary) }
+    .opt.sel { background:var(--primary-surface);color:var(--primary-dark);border-color:var(--primary);font-weight:500 }
+    .range-row { display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-top:6px }
+    .range-input { width:100%;height:4px;border-radius:2px;background:var(--border-tertiary);position:relative;margin:8px 0 }
+    .range-fill { position:absolute;left:0;height:100%;background:var(--primary);border-radius:2px;width:60% }
+    .range-thumb { position:absolute;left:60%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.15) }
+    .sheet-actions { display:flex;gap:10px;margin-top:8px }
+    .sheet-reset { flex:1;padding:12px;border-radius:12px;border:1px solid var(--border-secondary);background:transparent;font-size:13px;font-weight:600;color:var(--text-primary);cursor:pointer;font-family:inherit }
+    .sheet-apply { flex:2;padding:12px;border-radius:12px;border:none;background:var(--primary);font-size:13px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_home_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+    <div class="search-input">
+      <i class="ti ti-search" style="font-size:17px;color:var(--text-tertiary)" aria-hidden="true"></i>
+      <input type="text" placeholder="Cari teknisi AC, cleaning..." value="teknisi AC">
+    </div>
+    <div class="filter-btn" onclick="document.getElementById('sheet').classList.add('open')">
+      <i class="ti ti-adjustments-horizontal" style="font-size:17px;color:#fff" aria-hidden="true"></i>
+      <div class="filter-dot"></div>
+    </div>
+  </div>
+
+  <div class="location-row">
+    <i class="ti ti-map-pin" style="font-size:13px;color:var(--primary)" aria-hidden="true"></i>
+    <span>Mencari di sekitar <b>Pasuruan, Jawa Timur</b> · radius 10km</span>
+  </div>
+
+  <div class="filter-chips">
+    <div class="chip active with-icon"><i class="ti ti-circle-check"></i> Terverifikasi</div>
+    <div class="chip with-icon"><i class="ti ti-clock"></i> Tersedia hari ini</div>
+    <div class="chip">Rating 4.5+</div>
+    <div class="chip">Harga &lt; 100rb</div>
+    <div class="chip">Top mitra</div>
+  </div>
+
+  <div class="results-header">
+    <div class="results-count"><b>12 mitra</b> ditemukan</div>
+    <div class="sort-btn">
+      <i class="ti ti-arrows-sort" style="font-size:14px" aria-hidden="true"></i>
+      <span>Terdekat</span>
+    </div>
+  </div>
+
+  <div class="result-list">
+    <div class="result-card" onclick="window.location.href='jasane_mitra_profile_mockup.html'">
+      <div class="r-avatar" style="background:var(--primary-surface);color:var(--primary-dark)">BU<div class="r-avail-dot"></div></div>
+      <div class="r-info">
+        <div class="r-name-row">
+          <div class="r-name">Budi Santoso</div>
+          <i class="ti ti-rosette-discount-check-filled r-verified" aria-hidden="true"></i>
+        </div>
+        <div class="r-job">Teknisi AC · Pasuruan</div>
+        <div class="r-meta">
+          <span class="r-meta-item r-rating"><i class="ti ti-star-filled" style="font-size:11px"></i> 4.9 <span style="color:var(--text-tertiary);font-weight:400">(127)</span></span>
+          <span class="r-meta-item r-distance"><i class="ti ti-map-pin" style="font-size:11px"></i> 1,2 km</span>
+          <span class="r-meta-item"><i class="ti ti-clock" style="font-size:11px"></i> 08.00–17.00</span>
+        </div>
+        <div class="r-price-row">
+          <div><span class="r-price-from">mulai </span><span class="r-price">Rp 80.000</span></div>
+          <div class="r-quick-book">Pesan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card" onclick="window.location.href='jasane_mitra_profile_mockup.html'">
+      <div class="r-avatar" style="background:#E1F5EE;color:#085041">AR<div class="r-avail-dot"></div></div>
+      <div class="r-info">
+        <div class="r-name-row">
+          <div class="r-name">Ahmad Rizky</div>
+          <i class="ti ti-rosette-discount-check-filled r-verified" aria-hidden="true"></i>
+        </div>
+        <div class="r-job">Teknisi AC & Elektronik</div>
+        <div class="r-meta">
+          <span class="r-meta-item r-rating"><i class="ti ti-star-filled" style="font-size:11px"></i> 4.7 <span style="color:var(--text-tertiary);font-weight:400">(89)</span></span>
+          <span class="r-meta-item r-distance"><i class="ti ti-map-pin" style="font-size:11px"></i> 2,4 km</span>
+          <span class="r-meta-item"><i class="ti ti-clock" style="font-size:11px"></i> 09.00–18.00</span>
+        </div>
+        <div class="r-price-row">
+          <div><span class="r-price-from">mulai </span><span class="r-price">Rp 70.000</span></div>
+          <div class="r-quick-book">Pesan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="r-avatar" style="background:#FAEEDA;color:#633806">DH<div class="r-avail-dot"></div></div>
+      <div class="r-info">
+        <div class="r-name-row">
+          <div class="r-name">Dimas Hidayat</div>
+          <i class="ti ti-rosette-discount-check-filled r-verified" aria-hidden="true"></i>
+        </div>
+        <div class="r-job">Teknisi AC</div>
+        <div class="r-meta">
+          <span class="r-meta-item r-rating"><i class="ti ti-star-filled" style="font-size:11px"></i> 4.8 <span style="color:var(--text-tertiary);font-weight:400">(45)</span></span>
+          <span class="r-meta-item r-distance"><i class="ti ti-map-pin" style="font-size:11px"></i> 3,1 km</span>
+          <span class="r-meta-item"><i class="ti ti-clock" style="font-size:11px"></i> 07.00–16.00</span>
+        </div>
+        <div class="r-price-row">
+          <div><span class="r-price-from">mulai </span><span class="r-price">Rp 75.000</span></div>
+          <div class="r-quick-book">Pesan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="r-avatar" style="background:#FAECE7;color:#993C1D">RK</div>
+      <div class="r-info">
+        <div class="r-name-row">
+          <div class="r-name">Rudi Kurniawan</div>
+          <i class="ti ti-rosette-discount-check-filled r-verified" aria-hidden="true"></i>
+        </div>
+        <div class="r-job">Teknisi AC</div>
+        <div class="r-meta">
+          <span class="r-meta-item r-rating"><i class="ti ti-star-filled" style="font-size:11px"></i> 4.6 <span style="color:var(--text-tertiary);font-weight:400">(63)</span></span>
+          <span class="r-meta-item r-distance"><i class="ti ti-map-pin" style="font-size:11px"></i> 4,5 km</span>
+          <span class="r-meta-item" style="color:#854F0B"><i class="ti ti-clock" style="font-size:11px"></i> Sibuk</span>
+        </div>
+        <div class="r-price-row">
+          <div><span class="r-price-from">mulai </span><span class="r-price">Rp 85.000</span></div>
+          <div class="r-quick-book" style="background:var(--bg-secondary);color:var(--text-tertiary)">Pesan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="r-avatar" style="background:#EAF3DE;color:#3B6D11">YP<div class="r-avail-dot"></div></div>
+      <div class="r-info">
+        <div class="r-name-row">
+          <div class="r-name">Yoga Pratama</div>
+          <i class="ti ti-rosette-discount-check-filled r-verified" aria-hidden="true"></i>
+        </div>
+        <div class="r-job">Teknisi AC · Bersertifikat</div>
+        <div class="r-meta">
+          <span class="r-meta-item r-rating"><i class="ti ti-star-filled" style="font-size:11px"></i> 5.0 <span style="color:var(--text-tertiary);font-weight:400">(28)</span></span>
+          <span class="r-meta-item r-distance"><i class="ti ti-map-pin" style="font-size:11px"></i> 5,8 km</span>
+          <span class="r-meta-item"><i class="ti ti-clock" style="font-size:11px"></i> 08.00–20.00</span>
+        </div>
+        <div class="r-price-row">
+          <div><span class="r-price-from">mulai </span><span class="r-price">Rp 90.000</span></div>
+          <div class="r-quick-book">Pesan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="nav-item" onclick="window.location.href='jasane_home_mockup.html'">
+      <i class="ti ti-home" style="font-size:22px" aria-hidden="true"></i>
+      <span>Beranda</span>
+    </div>
+    <div class="nav-item active" onclick="window.location.href='jasane_search_mockup.html'">
+      <i class="ti ti-search" style="font-size:22px" aria-hidden="true"></i>
+      <span>Cari</span>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-clipboard-list" style="font-size:22px" aria-hidden="true"></i>
+      <span>Pesanan</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_chat_mockup.html'">
+      <i class="ti ti-message" style="font-size:22px" aria-hidden="true"></i>
+      <span>Chat</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_profile_mockup.html'">
+      <i class="ti ti-user" style="font-size:22px" aria-hidden="true"></i>
+      <span>Profil</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Filter Bottom Sheet -->
+<div class="sheet-overlay" id="sheet" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Filter pencarian</div>
+
+    <div class="sheet-section">
+      <div class="sheet-label">Kategori</div>
+      <div class="sheet-options">
+        <div class="opt sel">Service AC</div>
+        <div class="opt">Cleaning</div>
+        <div class="opt">Elektronik</div>
+        <div class="opt">Penjahit</div>
+        <div class="opt">Bimbel</div>
+      </div>
+    </div>
+
+    <div class="sheet-section">
+      <div class="sheet-label">Radius pencarian</div>
+      <div class="range-input">
+        <div class="range-fill"></div>
+        <div class="range-thumb"></div>
+      </div>
+      <div class="range-row"><span>1 km</span><span style="color:var(--primary);font-weight:600">10 km</span><span>25 km</span></div>
+    </div>
+
+    <div class="sheet-section">
+      <div class="sheet-label">Rentang harga</div>
+      <div class="sheet-options">
+        <div class="opt">Semua</div>
+        <div class="opt sel">&lt; Rp 100rb</div>
+        <div class="opt">Rp 100–200rb</div>
+        <div class="opt">&gt; Rp 200rb</div>
+      </div>
+    </div>
+
+    <div class="sheet-section">
+      <div class="sheet-label">Rating minimum</div>
+      <div class="sheet-options">
+        <div class="opt">Semua</div>
+        <div class="opt">4.0+</div>
+        <div class="opt sel">4.5+</div>
+        <div class="opt">4.8+</div>
+      </div>
+    </div>
+
+    <div class="sheet-section">
+      <div class="sheet-label">Urutkan</div>
+      <div class="sheet-options">
+        <div class="opt sel">Terdekat</div>
+        <div class="opt">Rating tertinggi</div>
+        <div class="opt">Harga termurah</div>
+        <div class="opt">Paling laris</div>
+      </div>
+    </div>
+
+    <div class="sheet-actions">
+      <button class="sheet-reset">Reset</button>
+      <button class="sheet-apply" onclick="document.getElementById('sheet').classList.remove('open')">Terapkan filter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.sheet-options').forEach(function(group){
+  group.querySelectorAll('.opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      group.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
+      opt.classList.add('sel');
+    });
+  });
+});
+document.querySelectorAll('.filter-chips .chip').forEach(function(c){
+  c.addEventListener('click', function(){ c.classList.toggle('active'); });
+});
+</script>
+</body>
+</html>
+
+
+
+

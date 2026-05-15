@@ -1,0 +1,230 @@
+<mxfile host="65bd71144e">
+    <diagram name="JASAne Use Case Diagram" id="jasane-usecase">
+        <mxGraphModel dx="4400" dy="5193" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="system-boundary" value="JASAne System" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;startSize=40;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="40" width="1000" height="1100" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc01" value="UC01: Register &amp; Login&#10;(Email / Google OAuth)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="80" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc02" value="UC02: Browse &amp; Search Mitra&#10;(Kategori, Lokasi, Rating)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="180" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc03" value="UC03: View Mitra Profile&#10;(Layanan, Harga, Rating, Jadwal)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="280" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc04" value="UC04: Create Booking&#10;(Pilih Layanan, Slot, Alamat)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="380" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc05" value="UC05: Make Payment&#10;(QRIS, Transfer, E-wallet)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="480" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc06" value="UC06: Cancel Booking&#10;(Refund Policy: 0%, 50%, 100%)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="580" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc07" value="UC07: Track Booking Status&#10;(Real-time Updates)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="680" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc08" value="UC08: Chat with Mitra&#10;(Real-time Messaging)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="780" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc09" value="UC09: Submit Review &amp; Rating&#10;(After Service Completion)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="880" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc10" value="UC10: File Dispute&#10;(Service Protection - 24h Window)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="50" y="980" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc11" value="UC11: Register as Mitra&#10;(Upload KTP, Fill Profile)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="280" y="80" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc12" value="UC12: Setup Availability Schedule&#10;(Days, Hours, Slot Duration)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="80" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc13" value="UC13: Manage Services&#10;(Add, Edit, Price, Description)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="180" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc14" value="UC14: View Incoming Bookings&#10;(Auto-locked Slots)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="280" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc15" value="UC15: Start Job&#10;(Tap 'Mulai Perjalanan')" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="380" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc16" value="UC16: Complete Job&#10;(Upload Proof Photo)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="480" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc17" value="UC17: Report Customer No-Show&#10;(Photo + GPS Proof)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="580" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc18" value="UC18: Cancel Booking (Emergency)&#10;(With Penalty)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="680" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc19" value="UC19: View Earnings&#10;(Pending, Available, Disbursed)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="780" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc20" value="UC20: Request Payout&#10;(Transfer to Bank Account)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="880" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc21" value="UC21: Block Dates&#10;(Personal Leave, Holidays)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="720" y="980" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc22" value="UC22: Verify Mitra&#10;(Approve KTP, Update Role)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="180" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc23" value="UC23: Handle Disputes&#10;(Mediation, Refund Decision)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="280" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc24" value="UC24: Monitor Transactions&#10;(Bookings, Payments, Refunds)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="380" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc25" value="UC25: Manage Penalties&#10;(Review, Suspend, Restore Mitra)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="480" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc26" value="UC26: Configure System Settings&#10;(Commission, Fees, Policies)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="580" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc27" value="UC27: View Audit Logs&#10;(Track Sensitive Operations)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="680" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc28" value="UC28: Process Payment Webhook&#10;(Xendit Callback)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="780" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc29" value="UC29: Auto-Release Escrow&#10;(24h After Completion)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="880" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc30" value="UC30: Send Notifications&#10;(Push, In-app, Email)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" parent="system-boundary" vertex="1">
+                    <mxGeometry x="400" y="980" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="include-uc04-uc05" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;endArrow=open;endSize=12;dashed=1;verticalAlign=bottom;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="system-boundary" source="uc04" target="uc05" edge="1">
+                    <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="include-uc05-uc28" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;endArrow=open;endSize=12;dashed=1;verticalAlign=bottom;exitX=1;exitY=1;entryX=0;entryY=0;" parent="system-boundary" source="uc05" target="uc28" edge="1">
+                    <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="include-uc16-uc29" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;endArrow=open;endSize=12;dashed=1;verticalAlign=bottom;exitX=0;exitY=1;entryX=1;entryY=0;" parent="system-boundary" source="uc16" target="uc29" edge="1">
+                    <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="extend-uc10-uc23" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;endArrow=open;endSize=12;dashed=1;verticalAlign=bottom;exitX=1;exitY=0;entryX=0;entryY=1;" parent="system-boundary" source="uc10" target="uc23" edge="1">
+                    <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="extend-uc17-uc23" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;endArrow=open;endSize=12;dashed=1;verticalAlign=bottom;exitX=0;exitY=0;entryX=1;entryY=1;" parent="system-boundary" source="uc17" target="uc23" edge="1">
+                    <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="actor-user" value="User/Pelanggan" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="300" width="60" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor-mitra" value="Mitra/Penyedia Jasa" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1400" y="300" width="60" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor-admin" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1400" y="800" width="60" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor-xendit" value="Xendit Payment Gateway" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="800" width="60" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc01" parent="1" source="actor-user" target="uc01" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc02" parent="1" source="actor-user" target="uc02" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc03" parent="1" source="actor-user" target="uc03" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc04" parent="1" source="actor-user" target="uc04" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc05" parent="1" source="actor-user" target="uc05" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc06" parent="1" source="actor-user" target="uc06" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc07" parent="1" source="actor-user" target="uc07" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc08" parent="1" source="actor-user" target="uc08" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc09" parent="1" source="actor-user" target="uc09" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc10" parent="1" source="actor-user" target="uc10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-user-uc11" parent="1" source="actor-user" target="uc11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc01" parent="1" source="actor-mitra" target="uc01" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc08" parent="1" source="actor-mitra" target="uc08" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc12" parent="1" source="actor-mitra" target="uc12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc13" parent="1" source="actor-mitra" target="uc13" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc14" parent="1" source="actor-mitra" target="uc14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc15" parent="1" source="actor-mitra" target="uc15" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc16" parent="1" source="actor-mitra" target="uc16" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc17" parent="1" source="actor-mitra" target="uc17" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc18" parent="1" source="actor-mitra" target="uc18" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc19" parent="1" source="actor-mitra" target="uc19" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc20" parent="1" source="actor-mitra" target="uc20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-mitra-uc21" parent="1" source="actor-mitra" target="uc21" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc22" parent="1" source="actor-admin" target="uc22" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc23" parent="1" source="actor-admin" target="uc23" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc24" parent="1" source="actor-admin" target="uc24" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc25" parent="1" source="actor-admin" target="uc25" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc26" parent="1" source="actor-admin" target="uc26" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-admin-uc27" parent="1" source="actor-admin" target="uc27" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="rel-xendit-uc28" parent="1" source="actor-xendit" target="uc28" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Informasi Pribadi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    /* Avatar section */
+    .avatar-section { display:flex;flex-direction:column;align-items:center;padding:10px 20px 24px }
+    .avatar-big { width:88px;height:88px;border-radius:24px;background:var(--primary-surface);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;position:relative;margin-bottom:12px }
+    .avatar-edit { position:absolute;bottom:-4px;right:-4px;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;border:3px solid var(--bg-primary);cursor:pointer }
+    .avatar-name { font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:2px }
+    .avatar-role { font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:5px }
+    .role-badge { background:var(--primary-surface);color:var(--primary-dark);font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px }
+
+    /* Form fields */
+    .form-section { padding:0 20px 20px }
+    .section-title { font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-tertiary);font-weight:600;margin-bottom:12px }
+    .field { margin-bottom:16px }
+    .field-label { font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:6px }
+    .field-value { display:flex;align-items:center;gap:10px;padding:13px 14px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);border-radius:12px }
+    .field-value.editable { cursor:pointer }
+    .field-value.editable:active { background:var(--border-tertiary) }
+    .fv-icon { font-size:17px;color:var(--text-tertiary);flex-shrink:0 }
+    .fv-text { flex:1;font-size:14px;color:var(--text-primary);font-weight:500 }
+    .fv-text.placeholder { color:var(--text-tertiary);font-weight:400 }
+    .fv-action { font-size:12px;color:var(--primary);font-weight:600;cursor:pointer }
+    .fv-verified { display:flex;align-items:center;gap:4px;font-size:11px;color:#1D9E75;font-weight:500 }
+
+    .info-note { display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--primary-surface);border-radius:12px;margin-bottom:20px }
+    .info-note i { font-size:16px;color:var(--primary);flex-shrink:0;margin-top:1px }
+    .info-note span { font-size:12px;color:var(--primary-dark);line-height:1.5 }
+
+    .btn-save { width:100%;padding:15px;border-radius:14px;border:none;background:var(--primary);font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(0,132,255,0.3);margin-top:8px }
+    .btn-save:active { transform:scale(0.97) }
+
+    .joined-info { text-align:center;padding:20px;font-size:11px;color:var(--text-tertiary) }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px"></i>
+      <i class="ti ti-battery" style="font-size:14px"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_profile_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Informasi pribadi</span>
+    <div style="width:36px"></div>
+  </div>
+
+  <div class="avatar-section">
+    <div class="avatar-big">
+      MF
+      <div class="avatar-edit"><i class="ti ti-camera" style="font-size:14px"></i></div>
+    </div>
+    <div class="avatar-name">Muhammad Farid</div>
+    <div class="avatar-role"><span class="role-badge">Pengguna</span> · Bergabung Mei 2026</div>
+  </div>
+
+  <div class="form-section">
+    <div class="section-title">Data diri</div>
+
+    <div class="field">
+      <div class="field-label">Nama lengkap</div>
+      <div class="field-value editable">
+        <i class="ti ti-user fv-icon"></i>
+        <div class="fv-text">Muhammad Farid</div>
+        <span class="fv-action">Ubah</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Email</div>
+      <div class="field-value">
+        <i class="ti ti-mail fv-icon"></i>
+        <div class="fv-text">farid@email.com</div>
+        <div class="fv-verified"><i class="ti ti-circle-check" style="font-size:13px"></i> Terverifikasi</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Nomor HP</div>
+      <div class="field-value editable">
+        <i class="ti ti-phone fv-icon"></i>
+        <div class="fv-text">+62 812-3456-7890</div>
+        <div class="fv-verified"><i class="ti ti-circle-check" style="font-size:13px"></i> Terverifikasi</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Tanggal lahir</div>
+      <div class="field-value editable">
+        <i class="ti ti-calendar fv-icon"></i>
+        <div class="fv-text">15 Januari 1998</div>
+        <span class="fv-action">Ubah</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Jenis kelamin</div>
+      <div class="field-value editable">
+        <i class="ti ti-gender-male fv-icon"></i>
+        <div class="fv-text">Laki-laki</div>
+        <span class="fv-action">Ubah</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="section-title">Lokasi</div>
+
+    <div class="field">
+      <div class="field-label">Kota / Kabupaten</div>
+      <div class="field-value editable">
+        <i class="ti ti-map-pin fv-icon"></i>
+        <div class="fv-text">Kota Pasuruan, Jawa Timur</div>
+        <span class="fv-action">Ubah</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="info-note">
+      <i class="ti ti-info-circle"></i>
+      <span>Perubahan email atau nomor HP memerlukan verifikasi ulang melalui kode OTP.</span>
+    </div>
+
+    <button class="btn-save">
+      <i class="ti ti-device-floppy" style="font-size:17px"></i>
+      Simpan perubahan
+    </button>
+  </div>
+
+  <div class="joined-info">
+    <i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px"></i> Bergabung sejak 1 Mei 2026 · ID: USR-20260501-MF
+  </div>
+
+</div>
+</body>
+</html>
+
+
+

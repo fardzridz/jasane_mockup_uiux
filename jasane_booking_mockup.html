@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device {
+      width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 14px }
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    .step-bar { display:flex;align-items:center;padding:0 20px 16px;gap:0 }
+    .step-item { display:flex;flex-direction:column;align-items:center;gap:5px;flex:1 }
+    .step-circle { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;border:2px solid var(--border-tertiary);color:var(--text-tertiary);background:var(--bg-primary);transition:all 0.15s }
+    .step-circle.done { background:var(--primary);border-color:var(--primary);color:var(--primary-surface) }
+    .step-circle.active { background:var(--primary-surface);border-color:var(--primary);color:var(--primary-dark) }
+    .step-label { font-size:11px;color:var(--text-tertiary) }
+    .step-label.active { color:var(--primary);font-weight:600 }
+    .step-label.done { color:var(--text-secondary) }
+    .step-line { height:2px;flex:1;background:var(--border-tertiary);margin-bottom:16px }
+    .step-line.done { background:var(--primary) }
+
+    .section { padding:0 20px 16px }
+    .sec-title { font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:12px }
+
+    .service-opt { display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--border-tertiary);margin-bottom:10px;cursor:pointer;transition:all 0.15s }
+    .service-opt.selected { border-color:var(--primary);background:var(--primary-surface) }
+    .service-opt.selected .svc-name { color:var(--primary-dark) }
+    .service-opt.selected .svc-price { color:var(--primary) }
+    .radio-dot { width:18px;height:18px;border-radius:50%;border:2px solid var(--border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .radio-dot.sel { border-color:var(--primary);background:var(--primary) }
+    .radio-inner { width:7px;height:7px;border-radius:50%;background:var(--primary-surface) }
+    .svc-name { font-size:13px;font-weight:600;color:var(--text-primary);flex:1 }
+    .svc-note { font-size:11px;color:var(--text-secondary);margin-top:2px }
+    .svc-price { font-size:13px;font-weight:600;color:#085041;margin-left:auto;white-space:nowrap }
+
+    .cal-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px }
+    .cal-nav { width:30px;height:30px;border-radius:8px;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+    .cal-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px }
+    .cal-day-label { text-align:center;font-size:11px;color:var(--text-tertiary);padding:3px 0 }
+    .cal-day { text-align:center;font-size:12px;padding:7px 3px;border-radius:10px;cursor:pointer;color:var(--text-secondary) }
+    .cal-day.off { color:var(--border-secondary);cursor:default }
+    .cal-day.avail { color:var(--text-primary) }
+    .cal-day.selected { background:var(--primary);color:var(--primary-surface);font-weight:600 }
+    .cal-day.today { border:1.5px solid var(--border-secondary) }
+
+    .time-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px }
+    .time-chip { padding:9px 4px;border-radius:10px;border:1px solid var(--border-tertiary);font-size:12px;text-align:center;cursor:pointer;color:var(--text-secondary) }
+    .time-chip.selected { background:var(--primary);color:var(--primary-surface);border-color:var(--primary);font-weight:600 }
+    .time-chip.off { color:var(--border-secondary);cursor:default;background:var(--bg-secondary) }
+
+    .address-box { background:var(--bg-secondary);border-radius:12px;padding:12px 14px;border:1px solid var(--border-tertiary);cursor:pointer }
+    .address-text { font-size:13px;color:var(--text-primary);line-height:1.6;flex:1 }
+    .address-change { font-size:12px;color:var(--primary);margin-top:4px;font-weight:500 }
+
+    .note-input { width:100%;background:var(--bg-secondary);border:1px solid var(--border-tertiary);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--text-primary);resize:none;outline:none;font-family:'Inter',sans-serif;line-height:1.6 }
+
+    .summary-card { background:var(--bg-secondary);border-radius:14px;padding:14px 16px;border:1px solid var(--border-tertiary) }
+    .summary-row { display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;font-size:13px }
+    .summary-label { color:var(--text-secondary) }
+    .summary-val { color:var(--text-primary);font-weight:600;text-align:right;max-width:55% }
+    .divider { border:none;border-top:1px solid var(--border-tertiary);margin:8px 0 }
+    .total-row { display:flex;justify-content:space-between;align-items:center;padding:8px 0 0 }
+    .total-label { font-size:14px;font-weight:600;color:var(--text-primary) }
+    .total-val { font-size:18px;font-weight:600;color:var(--primary-dark) }
+
+    .promo-row { display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid var(--border-tertiary);margin-bottom:16px;cursor:pointer }
+    .promo-label { font-size:13px;color:var(--text-secondary);flex:1 }
+    .promo-applied { font-size:11px;font-weight:600;color:#085041;background:#E1F5EE;padding:3px 10px;border-radius:20px }
+
+    .bottom-action { padding:14px 20px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);margin-top:auto }
+    .price-preview { display:flex;justify-content:space-between;align-items:center;margin-bottom:12px }
+    .price-small-label { font-size:12px;color:var(--text-secondary) }
+    .price-small-val { font-size:16px;font-weight:600;color:var(--primary-dark) }
+    .btn-next { width:100%;padding:14px;border-radius:12px;border:none;background:var(--primary);font-size:14px;font-weight:600;color:var(--primary-surface);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer }
+
+    .page { display:none }
+    .page.active { display:block }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="goBack()">
+      <i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)" aria-hidden="true"></i>
+    </div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)" id="pageTitle">Pilih layanan</span>
+    <div style="width:36px"></div>
+  </div>
+
+  <div class="step-bar">
+    <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-label active" id="sl1">Layanan</div></div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-label" id="sl2">Jadwal</div></div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-label" id="sl3">Detail</div></div>
+    <div class="step-line" id="line3"></div>
+    <div class="step-item"><div class="step-circle" id="sc4">4</div><div class="step-label" id="sl4">Ringkasan</div></div>
+  </div>
+
+  <!-- Page 1: Pilih Layanan -->
+  <div class="page active" id="page1">
+    <div class="section">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg-secondary);border-radius:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--primary-surface);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--primary-dark);flex-shrink:0">BU</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary)">Budi Santoso</div>
+          <div style="font-size:11px;color:var(--text-secondary)">Teknisi AC · <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i> 4.9</div>
+        </div>
+      </div>
+      <div class="sec-title">Pilih layanan</div>
+      <div class="service-opt selected" id="svc1" onclick="selectSvc(1,80000,'Service rutin AC')">
+        <div class="radio-dot sel" id="rd1"><div class="radio-inner"></div></div>
+        <div><div class="svc-name">Service rutin AC</div><div class="svc-note">Cuci + cek freon</div></div>
+        <div class="svc-price">Rp 80.000</div>
+      </div>
+      <div class="service-opt" id="svc2" onclick="selectSvc(2,120000,'Isi freon AC')">
+        <div class="radio-dot" id="rd2"></div>
+        <div><div class="svc-name">Isi freon AC</div><div class="svc-note">Per kg freon</div></div>
+        <div class="svc-price">Rp 120.000</div>
+      </div>
+      <div class="service-opt" id="svc3" onclick="selectSvc(3,250000,'Pasang AC baru')">
+        <div class="radio-dot" id="rd3"></div>
+        <div><div class="svc-name">Pasang AC baru</div><div class="svc-note">Belum termasuk unit</div></div>
+        <div class="svc-price">Rp 250.000</div>
+      </div>
+      <div class="service-opt" id="svc4" onclick="selectSvc(4,150000,'Perbaikan AC')">
+        <div class="radio-dot" id="rd4"></div>
+        <div><div class="svc-name">Perbaikan AC</div><div class="svc-note">Estimasi di lapangan</div></div>
+        <div class="svc-price">Rp 150.000+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Jadwal -->
+  <div class="page" id="page2">
+    <div class="section">
+      <div class="sec-title">Pilih tanggal</div>
+      <div class="cal-header">
+        <div class="cal-nav"><i class="ti ti-chevron-left" style="font-size:15px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+        <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Mei 2026</span>
+        <div class="cal-nav"><i class="ti ti-chevron-right" style="font-size:15px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-day-label">Min</div><div class="cal-day-label">Sen</div><div class="cal-day-label">Sel</div><div class="cal-day-label">Rab</div><div class="cal-day-label">Kam</div><div class="cal-day-label">Jum</div><div class="cal-day-label">Sab</div>
+        <div class="cal-day off"></div><div class="cal-day off"></div><div class="cal-day off"></div><div class="cal-day off"></div><div class="cal-day avail">1</div><div class="cal-day avail">2</div><div class="cal-day avail">3</div>
+        <div class="cal-day off">4</div><div class="cal-day avail">5</div><div class="cal-day avail">6</div><div class="cal-day avail">7</div><div class="cal-day avail">8</div><div class="cal-day avail">9</div><div class="cal-day avail">10</div>
+        <div class="cal-day off">11</div><div class="cal-day avail">12</div><div class="cal-day avail">13</div><div class="cal-day avail">14</div><div class="cal-day avail today">15</div><div class="cal-day avail">16</div><div class="cal-day avail">17</div>
+        <div class="cal-day off">18</div><div class="cal-day avail">19</div><div class="cal-day avail selected" id="selDay" onclick="pickDay(this)">20</div><div class="cal-day avail" onclick="pickDay(this)">21</div><div class="cal-day avail" onclick="pickDay(this)">22</div><div class="cal-day avail" onclick="pickDay(this)">23</div><div class="cal-day avail" onclick="pickDay(this)">24</div>
+        <div class="cal-day off">25</div><div class="cal-day avail" onclick="pickDay(this)">26</div><div class="cal-day avail" onclick="pickDay(this)">27</div><div class="cal-day avail" onclick="pickDay(this)">28</div><div class="cal-day avail" onclick="pickDay(this)">29</div><div class="cal-day avail" onclick="pickDay(this)">30</div><div class="cal-day avail" onclick="pickDay(this)">31</div>
+      </div>
+      <div class="sec-title">Pilih jam</div>
+      <div class="time-grid">
+        <div class="time-chip off">08.00</div>
+        <div class="time-chip off">09.00</div>
+        <div class="time-chip" onclick="pickTime(this)">10.00</div>
+        <div class="time-chip selected" id="selTime" onclick="pickTime(this)">11.00</div>
+        <div class="time-chip" onclick="pickTime(this)">13.00</div>
+        <div class="time-chip" onclick="pickTime(this)">14.00</div>
+        <div class="time-chip" onclick="pickTime(this)">15.00</div>
+        <div class="time-chip off">16.00</div>
+        <div class="time-chip off">17.00</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--text-tertiary)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border-tertiary);display:inline-block"></span>Penuh</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:4px;border:1px solid var(--border-tertiary);display:inline-block"></span>Tersedia</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:4px;background:var(--primary);display:inline-block"></span>Dipilih</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Detail -->
+  <div class="page" id="page3">
+    <div class="section">
+      <div class="sec-title">Alamat pengerjaan</div>
+      <div class="address-box">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <i class="ti ti-map-pin" style="font-size:18px;color:var(--primary);margin-top:2px;flex-shrink:0" aria-hidden="true"></i>
+          <div>
+            <div class="address-text">Jl. Veteran No. 12, RT 03/RW 02<br>Kel. Trajeng, Kec. Panggungrejo<br>Kota Pasuruan, 67126</div>
+            <div class="address-change">Ganti alamat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-title">Jumlah unit AC</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="display:flex;align-items:center;gap:0;border:1px solid var(--border-tertiary);border-radius:12px;overflow:hidden">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-right:1px solid var(--border-tertiary)" onclick="changeQty(-1)"><i class="ti ti-minus" style="font-size:15px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+          <div style="width:44px;text-align:center;font-size:15px;font-weight:600;color:var(--text-primary)" id="qtyVal">1</div>
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-left:1px solid var(--border-tertiary)" onclick="changeQty(1)"><i class="ti ti-plus" style="font-size:15px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+        </div>
+        <span style="font-size:13px;color:var(--text-secondary)">unit</span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-title">Catatan untuk mitra <span style="font-weight:400;color:var(--text-tertiary)">(opsional)</span></div>
+      <textarea class="note-input" rows="3" placeholder="Contoh: AC di kamar utama, sudah 2 tahun tidak diservice..."></textarea>
+    </div>
+    <div class="section">
+      <div class="sec-title">Metode pembayaran</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--primary);background:var(--primary-surface);cursor:pointer">
+          <i class="ti ti-qrcode" style="font-size:20px;color:var(--primary)" aria-hidden="true"></i>
+          <span style="font-size:13px;font-weight:600;color:var(--primary-dark);flex:1">QRIS</span>
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center"><i class="ti ti-check" style="font-size:11px;color:var(--primary-surface)" aria-hidden="true"></i></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--border-tertiary);cursor:pointer">
+          <i class="ti ti-building-bank" style="font-size:20px;color:var(--text-secondary)" aria-hidden="true"></i>
+          <span style="font-size:13px;color:var(--text-secondary);flex:1">Transfer bank</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--border-tertiary);cursor:pointer">
+          <i class="ti ti-cash" style="font-size:20px;color:var(--text-secondary)" aria-hidden="true"></i>
+          <span style="font-size:13px;color:var(--text-secondary);flex:1">Bayar di tempat (tunai)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Ringkasan -->
+  <div class="page" id="page4">
+    <div class="section">
+      <div class="sec-title">Ringkasan pesanan</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg-secondary);border-radius:12px;margin-bottom:14px">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--primary-surface);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--primary-dark);flex-shrink:0">BU</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary)">Budi Santoso</div>
+          <div style="font-size:11px;color:var(--text-secondary)">Teknisi AC · Pasuruan</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:2px;align-items:center">
+          <i class="ti ti-star-filled" style="font-size:12px;color:#BA7517" aria-hidden="true"></i>
+          <span style="font-size:12px;font-weight:600;color:#BA7517">4.9</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-row"><span class="summary-label">Layanan</span><span class="summary-val" id="sum-svc">Service rutin AC</span></div>
+        <div class="summary-row"><span class="summary-label">Tanggal</span><span class="summary-val">Selasa, 20 Mei 2026</span></div>
+        <div class="summary-row"><span class="summary-label">Jam</span><span class="summary-val">11.00 WIB</span></div>
+        <div class="summary-row"><span class="summary-label">Jumlah unit</span><span class="summary-val" id="sum-qty">1 unit AC</span></div>
+        <div class="summary-row"><span class="summary-label">Alamat</span><span class="summary-val">Jl. Veteran No. 12, Kel. Trajeng, Kota Pasuruan</span></div>
+        <div class="summary-row"><span class="summary-label">Pembayaran</span><span class="summary-val">QRIS</span></div>
+        <div class="divider"></div>
+        <div class="summary-row"><span class="summary-label">Biaya layanan</span><span class="summary-val" id="sum-price">Rp 80.000</span></div>
+        <div class="summary-row"><span class="summary-label">Biaya platform</span><span class="summary-val" style="color:#085041">Gratis <span style="font-size:11px;color:#0F6E56">(promo)</span></span></div>
+        <div class="divider"></div>
+        <div class="total-row"><span class="total-label">Total bayar</span><span class="total-val" id="sum-total">Rp 80.000</span></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="promo-row">
+        <i class="ti ti-ticket" style="font-size:18px;color:var(--primary);flex-shrink:0" aria-hidden="true"></i>
+        <span class="promo-label">Kode promo</span>
+        <span class="promo-applied">GRATIS3 ✓</span>
+      </div>
+      <div style="background:#E1F5EE;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start">
+        <i class="ti ti-shield-check" style="font-size:18px;color:#085041;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
+        <div style="font-size:12px;color:#085041;line-height:1.6">Pesananmu dilindungi garansi JASAne. Uang kembali jika mitra tidak datang atau pekerjaan tidak selesai.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action -->
+  <div class="bottom-action">
+    <div class="price-preview">
+      <div>
+        <div class="price-small-label">Total bayar</div>
+        <div class="price-small-val" id="bot-total">Rp 80.000</div>
+      </div>
+      <div style="font-size:11px;color:var(--text-tertiary)" id="stepInfo">Langkah 1 dari 4</div>
+    </div>
+    <button class="btn-next" id="nextBtn" onclick="goNext()">
+      <span id="nextLabel">Lanjut ke jadwal</span>
+      <i class="ti ti-arrow-right" style="font-size:16px" aria-hidden="true"></i>
+    </button>
+  </div>
+
+</div>
+
+<script>
+var curStep=1,selSvc=1,svcPrice=80000,svcName='Service rutin AC',qty=1;
+var titles=['Pilih layanan','Pilih jadwal','Detail pesanan','Ringkasan'];
+var nextLabels=['Lanjut ke jadwal','Lanjut ke detail','Lihat ringkasan','Konfirmasi & pesan'];
+
+function fmtRp(n){return'Rp '+n.toLocaleString('id-ID')}
+
+function updateUI(){
+  for(var i=1;i<=4;i++){
+    var sc=document.getElementById('sc'+i);
+    var sl=document.getElementById('sl'+i);
+    sc.className='step-circle'+(i<curStep?' done':i===curStep?' active':'');
+    sl.className='step-label'+(i<curStep?' done':i===curStep?' active':'');
+    if(i<4){document.getElementById('line'+i).className='step-line'+(i<curStep?' done':'');}
+    document.getElementById('page'+i).className='page'+(i===curStep?' active':'');
+  }
+  document.getElementById('pageTitle').textContent=titles[curStep-1];
+  document.getElementById('nextLabel').textContent=nextLabels[curStep-1];
+  document.getElementById('stepInfo').textContent='Langkah '+curStep+' dari 4';
+  document.getElementById('bot-total').textContent=fmtRp(svcPrice*qty);
+}
+
+function goNext(){
+  if(curStep<4){curStep++;updateUI();}
+  else { window.location.href='jasane_order_success_mockup.html'; }
+}
+function goBack(){
+  if(curStep>1){curStep--;updateUI();}
+  else { window.location.href='jasane_mitra_profile_mockup.html'; }
+}
+
+function selectSvc(n,price,name){
+  selSvc=n;svcPrice=price;svcName=name;
+  for(var i=1;i<=4;i++){
+    var el=document.getElementById('svc'+i);var rd=document.getElementById('rd'+i);
+    if(i===n){el.className='service-opt selected';rd.className='radio-dot sel';rd.innerHTML='<div class="radio-inner"></div>';}
+    else{el.className='service-opt';rd.className='radio-dot';rd.innerHTML='';}
+  }
+  document.getElementById('sum-svc').textContent=svcName;
+  document.getElementById('sum-price').textContent=fmtRp(svcPrice);
+  document.getElementById('sum-total').textContent=fmtRp(svcPrice*qty);
+  document.getElementById('bot-total').textContent=fmtRp(svcPrice*qty);
+}
+
+function pickDay(el){
+  var prev=document.getElementById('selDay');
+  if(prev){prev.className='cal-day avail';prev.id='';}
+  el.className='cal-day selected';el.id='selDay';
+}
+function pickTime(el){
+  var prev=document.getElementById('selTime');
+  if(prev){prev.className='time-chip';prev.id='';}
+  el.className='time-chip selected';el.id='selTime';
+}
+function changeQty(d){
+  qty=Math.max(1,Math.min(5,qty+d));
+  document.getElementById('qtyVal').textContent=qty;
+  document.getElementById('sum-qty').textContent=qty+' unit AC';
+  document.getElementById('sum-total').textContent=fmtRp(svcPrice*qty);
+  document.getElementById('bot-total').textContent=fmtRp(svcPrice*qty);
+}
+updateUI();
+</script>
+</body>
+</html>
+
+
+
+
+

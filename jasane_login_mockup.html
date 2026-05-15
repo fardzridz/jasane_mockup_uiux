@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+      --error: #E24B4A;
+      --error-surface: #FEF2F2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device { width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden; display: flex; flex-direction: column; }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+
+    .back-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer;margin:8px 20px 0 }
+
+    /* Header */
+    .login-header { padding: 24px 24px 0; }
+    .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .logo-icon { width: 44px; height: 44px; border-radius: 13px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,132,255,0.25); }
+    .logo-text { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .login-title { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .login-sub { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* Form */
+    .form { padding: 28px 24px 0; }
+    .field { margin-bottom: 18px; }
+    .field-label { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
+    .field-input { width: 100%; display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); border: 1.5px solid var(--border-tertiary); border-radius: 12px; padding: 0 14px; transition: all 0.2s ease; }
+    .field-input:focus-within { border-color: var(--primary); background: var(--bg-primary); box-shadow: 0 0 0 3px rgba(0,132,255,0.1); }
+    .field-input.error { border-color: var(--error); background: var(--error-surface); }
+    .field-input i { font-size: 18px; color: var(--text-tertiary); flex-shrink: 0; }
+    .field-input input { flex: 1; border: none; background: transparent; outline: none; font-size: 14px; font-family: inherit; color: var(--text-primary); padding: 14px 0; }
+    .field-input input::placeholder { color: var(--text-tertiary); }
+    .field-input .toggle-pw { cursor: pointer; padding: 4px; }
+    .field-error { font-size: 12px; color: var(--error); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+    .field-error i { font-size: 13px; }
+
+    .forgot-row { display: flex; justify-content: flex-end; margin-bottom: 24px; }
+    .forgot-link { font-size: 13px; color: var(--primary); font-weight: 500; cursor: pointer; }
+
+    .btn-login { width: 100%; padding: 16px; border-radius: 14px; border: none; background: var(--primary); font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(0,132,255,0.3); transition: all 0.2s ease; }
+    .btn-login:active { transform: scale(0.97); }
+
+    /* Divider */
+    .divider { display: flex; align-items: center; gap: 14px; padding: 24px 0; }
+    .divider-line { flex: 1; height: 1px; background: var(--border-tertiary); }
+    .divider-text { font-size: 12px; color: var(--text-tertiary); font-weight: 500; }
+
+    /* Social buttons */
+    .social-btns { display: flex; flex-direction: column; gap: 12px; }
+    .btn-social { width: 100%; padding: 14px; border-radius: 14px; border: 1.5px solid var(--border-tertiary); background: var(--bg-primary); font-size: 14px; font-weight: 500; color: var(--text-primary); cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease; }
+    .btn-social:active { background: var(--bg-secondary); transform: scale(0.98); }
+    .btn-social svg { flex-shrink: 0; }
+
+    /* Footer */
+    .login-footer { margin-top: auto; padding: 24px; text-align: center; }
+    .footer-text { font-size: 14px; color: var(--text-secondary); }
+    .footer-text a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+    .terms { font-size: 11px; color: var(--text-tertiary); text-align: center; line-height: 1.6; padding: 16px 24px 0; }
+    .terms a { color: var(--text-secondary); text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="back-btn" onclick="window.location.href='jasane_onboarding_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)"></i></div>
+
+  <div class="login-header">
+    <div class="logo-row">
+      <div class="logo-icon"><i class="ti ti-tools" style="font-size:22px;color:#fff"></i></div>
+      <div class="logo-text">JASAne</div>
+    </div>
+    <div class="login-title">Masuk ke akunmu</div>
+    <div class="login-sub">Selamat datang kembali! Masuk untuk melanjutkan memesan jasa.</div>
+  </div>
+
+  <div class="form">
+    <div class="field">
+      <div class="field-label">Email</div>
+      <div class="field-input">
+        <i class="ti ti-mail" aria-hidden="true"></i>
+        <input type="email" placeholder="contoh@email.com" value="farid@email.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Password</div>
+      <div class="field-input">
+        <i class="ti ti-lock" aria-hidden="true"></i>
+        <input type="password" placeholder="Masukkan password" id="pwInput" value="password123">
+        <i class="ti ti-eye-off toggle-pw" id="togglePw" onclick="togglePassword()"></i>
+      </div>
+    </div>
+
+    <div class="forgot-row">
+      <div class="forgot-link">Lupa password?</div>
+    </div>
+
+    <button class="btn-login" onclick="window.location.href='jasane_home_mockup.html'">
+      <span>Masuk</span>
+      <i class="ti ti-arrow-right" style="font-size:18px"></i>
+    </button>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-text">atau masuk dengan</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="social-btns">
+      <button class="btn-social">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Lanjut dengan Google
+      </button>
+    </div>
+  </div>
+
+  <div class="terms">
+    Dengan masuk, kamu menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> JASAne.
+  </div>
+
+  <div class="login-footer">
+    <div class="footer-text">Belum punya akun? <a href="jasane_register_mockup.html">Daftar sekarang</a></div>
+  </div>
+
+</div>
+
+<script>
+function togglePassword() {
+  var input = document.getElementById('pwInput');
+  var icon = document.getElementById('togglePw');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'ti ti-eye toggle-pw';
+  } else {
+    input.type = 'password';
+    icon.className = 'ti ti-eye-off toggle-pw';
+  }
+}
+</script>
+</body>
+</html>
+
+
+

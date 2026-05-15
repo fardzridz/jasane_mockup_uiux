@@ -1,0 +1,458 @@
+// JASAne - Marketplace Jasa Rumah Tangga
+// Database Schema - ERD Design
+// Platform: Supabase PostgreSQL
+// Version: 1.0 
+
+// ============================================
+// CORE TABLES - Authentication & Users
+// ============================================
+
+Table users {
+  id uuid [pk, ref: > auth.users.id, note: 'References Supabase auth.users']
+  full_name text [not null]
+  phone text [unique]
+  avatar_url text
+  role text [not null, default: 'user', note: 'user | mitra | admin']
+  fcm_token text [note: 'Firebase Cloud Messaging token']
+  is_active boolean [default: true]
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+  deleted_at timestamptz [null]
+  
+  indexes {
+    role
+    phone
+    is_active
+  }
+  
+  note: 'Extends Supabase auth.users. Role determines app routing (1 App 2 Mode)'
+}
+
+// ============================================
+// MITRA (SERVICE PROVIDER) TABLES
+// ============================================
+
+Table mitra_profiles {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [unique, not null, ref: > users.id, note: 'One user can have one mitra profile']
+  bio text
+  ktp_url text [note: 'KTP photo stored in private Supabase Storage bucket']
+  is_verified boolean [default: false, note: 'Admin approval required']
+  verification_at timestamptz [null]
+  verified_by uuid [ref: > users.id, note: 'Admin who verified']
+  
+  // Performance metrics
+  rating_avg decimal(3,2) [default: 0.0, note: 'Auto-calculated from reviews']
+  total_orders integer [default: 0]
+  completion_rate decimal(5,2) [default: 0.0, note: 'Percentage of completed orders']
+  service_protection_points integer [default: 100, note: 'Penalty system points']
+  years_active integer [default: 0]
+  
+  // Banking info (encrypted)
+  bank_name text
+  bank_account text [note: 'Encrypted with AES-256']
+  bank_holder text
+  
+  // Location & availability
+  latitude float [note: 'For GPS-based search']
+  longitude float [note: 'For GPS-based search']
+  service_radius integer [default: 10, note: 'Service radius in KM']
+  city text
+  province text
+  is_available boolean [default: true, note: 'Can accept new bookings']
+  
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+  deleted_at timestamptz [null]
+  
+  indexes {
+    (latitude, longitude) [name: 'idx_mitra_location', note: 'For nearby search']
+    is_verified [name: 'idx_mitra_verified', type: btree]
+    user_id
+    city
+  }
+  
+  note: 'Service provider profile. User upgrades from user to mitra role.'
+}
+
+Table mitra_penalties {
+  id uuid [pk, default: `gen_random_uuid()`]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  booking_id uuid [null, ref: > bookings.id]
+  type text [not null, note: 'cancel | no_show | late | dispute_lost']
+  penalty_points integer [not null, note: 'Points deducted from SP score']
+  rating_deduction decimal(3,2) [note: 'Rating penalty amount']
+  notes text
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    mitra_id
+    (mitra_id, created_at)
+    type
+  }
+  
+  note: 'Tracks mitra violations and penalties for accountability'
+}
+
+// ============================================
+// SERVICE CATALOG TABLES
+// ============================================
+
+Table categories {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name text [not null, unique]
+  icon_url text
+  slug text [not null, unique]
+  description text
+  is_active boolean [default: true]
+  sort_order integer [default: 0]
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    slug
+    is_active
+    sort_order
+  }
+  
+  note: 'Master service categories (e.g., Cleaning, Plumbing, AC Repair)'
+}
+
+Table mitra_services {
+  id uuid [pk, default: `gen_random_uuid()`]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  category_id uuid [not null, ref: > categories.id]
+  name text [not null]
+  description text
+  price decimal(12,2) [not null]
+  price_unit text [default: 'per_job', note: 'per_job | per_hour | per_unit | estimate']
+  duration_minutes integer [note: 'Estimated duration for slot calculation']
+  is_active boolean [default: true]
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+  
+  indexes {
+    mitra_id
+    category_id
+    is_active
+  }
+  
+  note: 'Services offered by each mitra with pricing'
+}
+
+Table mitra_schedules {
+  id uuid [pk, default: `gen_random_uuid()`]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  day_of_week smallint [not null, note: '0=Sunday, 6=Saturday']
+  open_time time [not null]
+  close_time time [not null]
+  slot_duration_minutes integer [default: 60, note: 'Duration per booking slot']
+  max_slots_per_day integer [default: 8, note: 'Maximum bookings per day']
+  is_active boolean [default: true]
+  
+  indexes {
+    (mitra_id, day_of_week) [unique]
+    mitra_id
+  }
+  
+  note: 'Mitra availability schedule for instant booking slot system'
+}
+
+Table mitra_blocked_dates {
+  id uuid [pk, default: `gen_random_uuid()`]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  blocked_date date [not null]
+  reason text
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    (mitra_id, blocked_date) [unique]
+    mitra_id
+  }
+  
+  note: 'Dates when mitra is unavailable (holidays, personal leave)'
+}
+
+// ============================================
+// BOOKING & TRANSACTION TABLES
+// ============================================
+
+Table bookings {
+  id uuid [pk, default: `gen_random_uuid()`]
+  booking_code text [unique, not null, note: 'JSN-YYYYMMDD-XXXX format']
+  user_id uuid [not null, ref: > users.id]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  
+  // Status - INSTANT BOOKING FLOW
+  status text [not null, default: 'terjadwal', note: 'terjadwal | berlangsung | selesai | dibatalkan_pelanggan | dibatalkan_mitra | no_show']
+  
+  // Scheduling
+  scheduled_at timestamptz [not null, note: 'Appointment date & time']
+  started_at timestamptz [null, note: 'When mitra tapped "Mulai perjalanan"']
+  completed_at timestamptz [null, note: 'When marked as done']
+  
+  // Location
+  address text [not null]
+  latitude float
+  longitude float
+  
+  // Details
+  notes text [note: 'Customer notes for mitra']
+  
+  // Pricing
+  subtotal decimal(12,2) [not null]
+  platform_fee decimal(12,2) [not null, default: 0]
+  total_amount decimal(12,2) [not null]
+  commission_rate decimal(5,2) [not null, default: 10.00, note: 'Platform commission percentage']
+  
+  // Payment
+  payment_method text [note: 'qris | transfer | ewallet | card']
+  
+  // Cancellation
+  cancelled_by text [null, note: 'user | mitra | admin | system']
+  cancel_reason text
+  cancelled_at timestamptz [null]
+  refund_amount decimal(12,2) [null]
+  refund_percentage decimal(5,2) [null, note: '0 | 50 | 100 based on cancellation policy']
+  
+  // No-show handling
+  no_show_photo_url text [note: 'Mitra proof photo with GPS metadata']
+  no_show_timestamp timestamptz [null]
+  no_show_compensation decimal(12,2) [null]
+  
+  // Completion proof
+  completion_photo_url text [note: 'Mitra uploads proof of work']
+  auto_complete_at timestamptz [null, note: '24 hours after completion for auto-release']
+  
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+  deleted_at timestamptz [null]
+  
+  indexes {
+    (user_id, created_at) [name: 'idx_bookings_user']
+    (mitra_id, status) [name: 'idx_bookings_mitra']
+    (status, scheduled_at) [name: 'idx_bookings_status']
+    booking_code
+    scheduled_at
+  }
+  
+  note: 'Core booking table with instant booking flow (no pending approval)'
+}
+
+Table booking_items {
+  id uuid [pk, default: `gen_random_uuid()`]
+  booking_id uuid [not null, ref: > bookings.id]
+  service_id uuid [not null, ref: > mitra_services.id]
+  service_name text [not null, note: 'Snapshot at booking time']
+  price decimal(12,2) [not null, note: 'Snapshot at booking time']
+  quantity integer [default: 1]
+  subtotal decimal(12,2) [not null]
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    booking_id
+  }
+  
+  note: 'Line items for each booking (multiple services per booking)'
+}
+
+// ============================================
+// PAYMENT TABLES
+// ============================================
+
+Table payments {
+  id uuid [pk, default: `gen_random_uuid()`]
+  booking_id uuid [unique, not null, ref: > bookings.id]
+  xendit_invoice_id text [unique, note: 'Xendit invoice ID']
+  xendit_payment_id text [note: 'Xendit payment ID after paid']
+  amount decimal(12,2) [not null]
+  currency text [default: 'IDR']
+  method text [note: 'qris | bank_transfer | ewallet | card']
+  status text [not null, default: 'pending', note: 'pending | paid | failed | expired | refunded']
+  invoice_url text [note: 'Xendit payment page URL']
+  paid_at timestamptz [null]
+  expired_at timestamptz [null]
+  xendit_raw jsonb [note: 'Full webhook payload from Xendit']
+  created_at timestamptz [default: `now()`]
+  updated_at timestamptz [default: `now()`]
+  
+  indexes {
+    booking_id
+    xendit_invoice_id
+    status
+  }
+  
+  note: 'Payment records via Xendit gateway'
+}
+
+Table mitra_earnings {
+  id uuid [pk, default: `gen_random_uuid()`]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  booking_id uuid [not null, ref: > bookings.id]
+  gross_amount decimal(12,2) [not null, note: 'Total booking amount']
+  commission decimal(12,2) [not null, note: 'Platform commission']
+  net_amount decimal(12,2) [not null, note: 'Mitra receives after commission']
+  status text [not null, default: 'pending', note: 'pending | available | disbursed']
+  
+  // Escrow & dispute handling
+  escrow_release_at timestamptz [note: '24 hours after completion']
+  is_disputed boolean [default: false]
+  dispute_resolved_at timestamptz [null]
+  
+  // Disbursement
+  disbursed_at timestamptz [null]
+  xendit_disbursement_id text [note: 'Xendit payout transaction ID']
+  
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    (mitra_id, status)
+    booking_id
+    status
+  }
+  
+  note: 'Mitra earnings with escrow system (24h hold for disputes)'
+}
+
+// ============================================
+// REVIEW & RATING TABLES
+// ============================================
+
+Table reviews {
+  id uuid [pk, default: `gen_random_uuid()`]
+  booking_id uuid [unique, not null, ref: > bookings.id]
+  user_id uuid [not null, ref: > users.id]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  rating smallint [not null, note: '1-5 stars']
+  comment text
+  is_visible boolean [default: true, note: 'Admin can hide inappropriate reviews']
+  admin_response text [null, note: 'Mitra or admin response to review']
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    mitra_id
+    (mitra_id, rating)
+    booking_id
+  }
+  
+  note: 'Customer reviews after service completion'
+}
+
+// ============================================
+// CHAT & MESSAGING TABLES
+// ============================================
+
+Table chat_rooms {
+  id uuid [pk, default: `gen_random_uuid()`]
+  booking_id uuid [unique, not null, ref: > bookings.id]
+  user_id uuid [not null, ref: > users.id]
+  mitra_id uuid [not null, ref: > mitra_profiles.id]
+  is_active boolean [default: true]
+  last_message_at timestamptz [null]
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    booking_id
+    (user_id, last_message_at)
+    (mitra_id, last_message_at)
+  }
+  
+  note: 'Chat room per booking for user-mitra communication'
+}
+
+Table messages {
+  id uuid [pk, default: `gen_random_uuid()`]
+  room_id uuid [not null, ref: > chat_rooms.id]
+  sender_id uuid [not null, ref: > users.id]
+  content text
+  type text [default: 'text', note: 'text | image | system']
+  image_url text [null]
+  is_read boolean [default: false]
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    (room_id, created_at)
+    room_id
+    sender_id
+  }
+  
+  note: 'Real-time messages via Supabase Realtime WebSocket'
+}
+
+// ============================================
+// NOTIFICATION TABLES
+// ============================================
+
+Table notifications {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [not null, ref: > users.id]
+  type text [not null, note: 'booking_new | booking_confirmed | payment_success | reminder_h1 | etc']
+  title text [not null]
+  body text [not null]
+  data jsonb [note: 'Additional payload (booking_id, etc)']
+  is_read boolean [default: false]
+  read_at timestamptz [null]
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    (user_id, is_read, created_at)
+    user_id
+    type
+  }
+  
+  note: 'In-app notification center + FCM push notification log'
+}
+
+// ============================================
+// SYSTEM CONFIGURATION TABLES
+// ============================================
+
+Table app_settings {
+  id uuid [pk, default: `gen_random_uuid()`]
+  key text [unique, not null]
+  value text [not null]
+  value_type text [default: 'string', note: 'string | number | boolean | json']
+  description text
+  is_public boolean [default: false, note: 'Can be accessed by client']
+  updated_at timestamptz [default: `now()`]
+  updated_by uuid [ref: > users.id]
+  
+  indexes {
+    key
+    is_public
+  }
+  
+  note: 'System-wide settings (commission rate, no-show fee, refund policy, etc)'
+}
+
+Table audit_logs {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id]
+  action text [not null, note: 'role_change | mitra_verify | booking_cancel | etc']
+  table_name text
+  record_id uuid
+  old_values jsonb
+  new_values jsonb
+  ip_address text
+  user_agent text
+  created_at timestamptz [default: `now()`]
+  
+  indexes {
+    user_id
+    action
+    (table_name, record_id)
+    created_at
+  }
+  
+  note: 'Audit trail for sensitive operations'
+}
+
+// ============================================
+// REFERENCE TABLE (Supabase Auth)
+// ============================================
+
+Table auth.users {
+  id uuid [pk]
+  email text
+  
+  note: 'Supabase built-in auth table (reference only)'
+}

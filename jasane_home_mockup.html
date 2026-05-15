@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .device {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--bg-primary);
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: none;
+    }
+
+    .statusbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 20px 8px; font-size: 12px; font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .topbar {
+      padding: 8px 20px 14px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .avatar {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--primary-surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; color: var(--primary-dark); flex-shrink: 0;
+    }
+    .greeting { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .greeting-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .notif-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--border-tertiary); background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; position: relative;
+    }
+    .notif-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #E24B4A;
+      position: absolute; top: 8px; right: 8px; border: 2px solid var(--bg-primary);
+    }
+
+    .searchbar {
+      margin: 0 20px 16px; display: flex; align-items: center; gap: 10px;
+      background: var(--bg-secondary); border: 1px solid var(--border-tertiary);
+      border-radius: 12px; padding: 12px 14px; cursor: pointer;
+    }
+    .searchbar span { font-size: 14px; color: var(--text-tertiary); }
+
+    .banner {
+      margin: 0 20px 18px; background: var(--primary-surface); border-radius: 14px;
+      padding: 16px; display: flex; align-items: center; gap: 12px;
+      border: 1px solid var(--primary-border);
+    }
+    .banner-icon {
+      width: 44px; height: 44px; border-radius: 12px; background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .banner-title { font-size: 14px; font-weight: 600; color: var(--primary-dark); }
+    .banner-sub { font-size: 12px; color: var(--primary); margin-top: 2px; }
+    .banner-cta {
+      margin-left: auto; font-size: 12px; font-weight: 600; color: var(--primary-dark);
+      background: var(--primary-border); padding: 6px 14px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 20px; margin-bottom: 12px;
+    }
+    .section-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .see-all { font-size: 12px; color: var(--primary); font-weight: 500; cursor: pointer; }
+
+    .cat-row {
+      display: flex; gap: 12px; padding: 0 20px; margin-bottom: 18px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .cat-row::-webkit-scrollbar { display: none; }
+    .cat-chip { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; cursor: pointer; }
+    .cat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .cat-label { font-size: 11px; color: var(--text-secondary); text-align: center; width: 56px; }
+    .cat-chip.active .cat-icon { border: 2px solid var(--primary-light); }
+    .cat-chip.active .cat-label { color: var(--primary); font-weight: 600; }
+
+    .promo-strip {
+      margin: 0 20px 18px; background: #E1F5EE; border-radius: 14px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+      border: 1px solid #9FE1CB;
+    }
+    .promo-badge {
+      background: #1D9E75; color: #E1F5EE; font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px; flex-shrink: 0;
+    }
+    .promo-text { font-size: 12px; color: #085041; }
+
+    .card-row {
+      display: flex; gap: 12px; padding: 0 20px; margin-bottom: 18px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .card-row::-webkit-scrollbar { display: none; }
+    .mitra-card {
+      background: var(--bg-primary); border: 1px solid var(--border-tertiary);
+      border-radius: 14px; padding: 14px; width: 152px; flex-shrink: 0; cursor: pointer;
+    }
+    .mitra-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; margin-bottom: 10px;
+    }
+    .mitra-name {
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+      margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .mitra-job { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }
+    .mitra-footer { display: flex; align-items: center; justify-content: space-between; }
+    .stars { display: flex; align-items: center; gap: 3px; font-size: 11px; color: #BA7517; }
+    .price-tag {
+      font-size: 11px; color: #085041; font-weight: 600;
+      background: #E1F5EE; padding: 3px 8px; border-radius: 20px;
+    }
+    .verified-badge {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; color: #085041; margin-bottom: 4px;
+    }
+
+    .section-recent { margin: 0 20px 14px; }
+    .order-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--border-tertiary);
+    }
+    .order-item:last-child { border-bottom: none; }
+    .order-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .order-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .order-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .order-status {
+      margin-left: auto; font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px; flex-shrink: 0;
+    }
+    .status-done { background: #E1F5EE; color: #085041; }
+    .status-process { background: #FAEEDA; color: #633806; }
+
+    .navbar {
+      display: flex; justify-content: space-around; align-items: center;
+      padding: 12px 0 10px; border-top: 1px solid var(--border-tertiary);
+      background: var(--bg-primary); position: fixed; bottom: 0; left: 0; right: 0; max-width: 430px; margin: 0 auto; z-index: 50;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 11px; color: var(--text-tertiary); cursor: pointer; min-width: 52px;
+    }
+    .nav-item.active { color: var(--primary); }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary-light); margin-top: 1px; }
+  </style>
+</head>
+<body>
+
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="avatar">MF</div>
+      <div>
+        <div class="greeting">Halo, Farid!</div>
+        <div class="greeting-sub"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> Pasuruan, Jawa Timur</div>
+      </div>
+    </div>
+    <div class="notif-btn">
+      <i class="ti ti-bell" style="font-size:18px;color:var(--text-secondary)" aria-hidden="true"></i>
+      <div class="notif-dot"></div>
+    </div>
+  </div>
+
+  <div class="searchbar" onclick="window.location.href='jasane_search_mockup.html'">
+    <i class="ti ti-search" style="font-size:18px;color:var(--text-tertiary)" aria-hidden="true"></i>
+    <span>Cari jasa di sekitarmu...</span>
+  </div>
+
+  <div class="banner">
+    <div class="banner-icon">
+      <i class="ti ti-tools" style="font-size:22px;color:#E8F4FF" aria-hidden="true"></i>
+    </div>
+    <div>
+      <div class="banner-title">Punya keahlian jasa?</div>
+      <div class="banner-sub">Daftar jadi mitra JASAne</div>
+    </div>
+    <div class="banner-cta">Daftar</div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Kategori jasa</div>
+    <div class="see-all">Lihat semua</div>
+  </div>
+  <div class="cat-row">
+    <div class="cat-chip active">
+      <div class="cat-icon" style="background:var(--primary-surface)"><i class="ti ti-air-conditioning" style="font-size:24px;color:var(--primary)" aria-hidden="true"></i></div>
+      <div class="cat-label">Service AC</div>
+    </div>
+    <div class="cat-chip">
+      <div class="cat-icon" style="background:#E1F5EE"><i class="ti ti-plug" style="font-size:24px;color:#0F6E56" aria-hidden="true"></i></div>
+      <div class="cat-label">Elektronik</div>
+    </div>
+    <div class="cat-chip">
+      <div class="cat-icon" style="background:#FAEEDA"><i class="ti ti-wash" style="font-size:24px;color:#854F0B" aria-hidden="true"></i></div>
+      <div class="cat-label">Cleaning</div>
+    </div>
+    <div class="cat-chip">
+      <div class="cat-icon" style="background:#FAECE7"><i class="ti ti-needle-thread" style="font-size:24px;color:#993C1D" aria-hidden="true"></i></div>
+      <div class="cat-label">Penjahit</div>
+    </div>
+    <div class="cat-chip">
+      <div class="cat-icon" style="background:#EAF3DE"><i class="ti ti-book" style="font-size:24px;color:#3B6D11" aria-hidden="true"></i></div>
+      <div class="cat-label">Bimbel</div>
+    </div>
+    <div class="cat-chip">
+      <div class="cat-icon" style="background:#F1EFE8"><i class="ti ti-dots" style="font-size:24px;color:#5F5E5A" aria-hidden="true"></i></div>
+      <div class="cat-label">Lainnya</div>
+    </div>
+  </div>
+
+  <div class="promo-strip">
+    <div class="promo-badge">Promo</div>
+    <div class="promo-text">Gratis biaya platform untuk 3 pesanan pertama kamu</div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Mitra terdekat</div>
+    <div class="see-all">Lihat semua</div>
+  </div>
+  <div class="card-row">
+    <div class="mitra-card" onclick="window.location.href='jasane_mitra_profile_mockup.html'">
+      <div class="mitra-avatar" style="background:var(--primary-surface);color:var(--primary-dark)">BU</div>
+      <div class="verified-badge"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i>Terverifikasi</div>
+      <div class="mitra-name">Budi Santoso</div>
+      <div class="mitra-job">Teknisi AC</div>
+      <div class="mitra-footer">
+        <div class="stars"><i class="ti ti-star-filled" style="font-size:12px" aria-hidden="true"></i> 4.9</div>
+        <div class="price-tag">Rp 80rb</div>
+      </div>
+    </div>
+    <div class="mitra-card" onclick="window.location.href='jasane_mitra_profile_mockup.html'">
+      <div class="mitra-avatar" style="background:#E1F5EE;color:#085041">SR</div>
+      <div class="verified-badge"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i>Terverifikasi</div>
+      <div class="mitra-name">Siti Rahayu</div>
+      <div class="mitra-job">Cleaning Service</div>
+      <div class="mitra-footer">
+        <div class="stars"><i class="ti ti-star-filled" style="font-size:12px" aria-hidden="true"></i> 4.8</div>
+        <div class="price-tag">Rp 60rb</div>
+      </div>
+    </div>
+    <div class="mitra-card">
+      <div class="mitra-avatar" style="background:#FAEEDA;color:#633806">AR</div>
+      <div class="verified-badge"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i>Terverifikasi</div>
+      <div class="mitra-name">Ahmad Rizky</div>
+      <div class="mitra-job">Teknisi Elektronik</div>
+      <div class="mitra-footer">
+        <div class="stars"><i class="ti ti-star-filled" style="font-size:12px" aria-hidden="true"></i> 4.7</div>
+        <div class="price-tag">Rp 70rb</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Pesanan terakhir</div>
+    <div class="see-all">Riwayat</div>
+  </div>
+  <div class="section-recent">
+    <div class="order-item">
+      <div class="order-icon" style="background:var(--primary-surface)"><i class="ti ti-air-conditioning" style="font-size:20px;color:var(--primary)" aria-hidden="true"></i></div>
+      <div>
+        <div class="order-name">Service AC</div>
+        <div class="order-meta">Budi Santoso · 12 Mei 2026</div>
+      </div>
+      <div class="order-status status-done">Selesai</div>
+    </div>
+    <div class="order-item">
+      <div class="order-icon" style="background:#FAEEDA"><i class="ti ti-plug" style="font-size:20px;color:#854F0B" aria-hidden="true"></i></div>
+      <div>
+        <div class="order-name">Perbaikan Elektronik</div>
+        <div class="order-meta">Ahmad Rizky · 14 Mei 2026</div>
+      </div>
+      <div class="order-status status-process">Proses</div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="nav-item active" onclick="window.location.href='jasane_home_mockup.html'">
+      <i class="ti ti-home-filled" style="font-size:22px" aria-hidden="true"></i>
+      <span>Beranda</span>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_search_mockup.html'">
+      <i class="ti ti-search" style="font-size:22px" aria-hidden="true"></i>
+      <span>Cari</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_orders_mockup.html'">
+      <i class="ti ti-clipboard-list" style="font-size:22px" aria-hidden="true"></i>
+      <span>Pesanan</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_chat_mockup.html'">
+      <i class="ti ti-message" style="font-size:22px" aria-hidden="true"></i>
+      <span>Chat</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='jasane_profile_mockup.html'">
+      <i class="ti ti-user" style="font-size:22px" aria-hidden="true"></i>
+      <span>Profil</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+

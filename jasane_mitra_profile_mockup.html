@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>JASAne — Profil Mitra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --primary: #0084FF;
+      --primary-light: #4DA6FF;
+      --primary-surface: #E8F4FF;
+      --primary-dark: #0060BB;
+      --primary-border: #99CEFF;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9E9E9E;
+      --border-secondary: #D4D4D4;
+      --border-tertiary: #EBEBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FFFFFF; height: 100%; width: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    .device {
+      width: 100%; max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg-primary); position: relative; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+    
+
+    .statusbar { display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;font-size:12px;font-weight:500;color:var(--text-primary) }
+    .topnav { display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px }
+    .back-btn,.share-btn { width:36px;height:36px;border-radius:50%;border:1px solid var(--border-tertiary);display:flex;align-items:center;justify-content:center;cursor:pointer }
+
+    .hero { padding:0 20px 16px;display:flex;gap:14px;align-items:flex-start }
+    .big-avatar { width:68px;height:68px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;flex-shrink:0 }
+    .mitra-name { font-size:17px;font-weight:600;color:var(--text-primary);margin-bottom:4px }
+    .mitra-job { font-size:12px;color:var(--text-secondary);margin-bottom:8px }
+    .badge-row { display:flex;gap:8px;flex-wrap:wrap }
+    .badge { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px }
+    .badge-verified { background:#E1F5EE;color:#085041 }
+    .badge-top { background:#FAEEDA;color:#633806 }
+
+    .stat-row { display:flex;gap:0;border-top:1px solid var(--border-tertiary);border-bottom:1px solid var(--border-tertiary) }
+    .stat-item { flex:1;padding:14px 0;text-align:center;border-right:1px solid var(--border-tertiary) }
+    .stat-item:last-child { border-right:none }
+    .stat-val { font-size:17px;font-weight:600;color:var(--text-primary) }
+    .stat-label { font-size:11px;color:var(--text-secondary);margin-top:3px }
+
+    .tab-row { display:flex;padding:0 20px;gap:0;margin-top:4px;border-bottom:1px solid var(--border-tertiary) }
+    .tab { flex:1;text-align:center;padding:10px 0;font-size:13px;color:var(--text-secondary);cursor:pointer;border-bottom:2.5px solid transparent;font-weight:500 }
+    .tab.active { color:var(--primary);font-weight:600;border-bottom:2.5px solid var(--primary) }
+
+    .section { padding:16px 20px 0 }
+    .sec-title { font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:10px }
+    .desc-text { font-size:13px;color:var(--text-secondary);line-height:1.7 }
+
+    .info-row { display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-tertiary);font-size:13px;color:var(--text-primary) }
+    .info-row:last-child { border-bottom:none }
+    .info-icon { width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0 }
+    .info-label { color:var(--text-secondary);min-width:84px;font-size:12px }
+    .info-val { font-size:13px;color:var(--text-primary);font-weight:600 }
+
+    .service-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px }
+    .service-card { background:var(--bg-secondary);border-radius:12px;padding:12px;border:1px solid var(--border-tertiary) }
+    .service-name { font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:3px }
+    .service-price { font-size:12px;color:#085041;font-weight:600 }
+    .service-note { font-size:11px;color:var(--text-tertiary);margin-top:3px }
+
+    .rating-summary { display:flex;align-items:center;gap:14px;background:var(--bg-secondary);border-radius:12px;padding:12px 14px;margin-bottom:12px }
+    .big-rating { font-size:30px;font-weight:600;color:var(--text-primary);line-height:1 }
+    .rating-sub { font-size:11px;color:var(--text-secondary);margin-top:3px }
+    .bar-row { display:flex;align-items:center;gap:6px;margin-bottom:4px }
+    .bar-label { font-size:11px;color:var(--text-secondary);width:10px;text-align:right }
+    .bar-track { flex:1;height:5px;background:var(--border-tertiary);border-radius:3px;overflow:hidden }
+    .bar-fill { height:100%;border-radius:3px;background:#BA7517 }
+    .bar-count { font-size:11px;color:var(--text-tertiary);width:14px }
+
+    .review-item { padding:12px 0;border-bottom:1px solid var(--border-tertiary) }
+    .review-item:last-child { border-bottom:none;padding-bottom:0 }
+    .review-header { display:flex;align-items:center;gap:10px;margin-bottom:6px }
+    .rev-avatar { width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0 }
+    .rev-name { font-size:13px;font-weight:600;color:var(--text-primary) }
+    .rev-date { font-size:11px;color:var(--text-tertiary);margin-left:auto }
+    .rev-text { font-size:12px;color:var(--text-secondary);line-height:1.6 }
+
+    .avail-chips { display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 }
+    .avail-chip { font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border-tertiary);color:var(--text-secondary);font-weight:500 }
+    .avail-chip.on { background:#E1F5EE;color:#085041;border-color:#9FE1CB }
+    .avail-chip.off { background:var(--bg-secondary);color:var(--text-tertiary) }
+
+    .bottom-action { display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--border-tertiary);background:var(--bg-primary);margin-top:auto }
+    .btn-chat { flex:1;padding:13px;border-radius:12px;border:1px solid var(--border-secondary);background:transparent;font-size:14px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer }
+    .btn-book { flex:2;padding:13px;border-radius:12px;border:none;background:var(--primary);font-size:14px;font-weight:600;color:var(--primary-surface);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <div class="statusbar">
+    <span>9:41</span>
+    <div style="display:flex;gap:5px;align-items:center">
+      <i class="ti ti-wifi" style="font-size:14px" aria-hidden="true"></i>
+      <i class="ti ti-battery" style="font-size:14px" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="back-btn" onclick="window.location.href='jasane_home_mockup.html'"><i class="ti ti-arrow-left" style="font-size:17px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+    <span style="font-size:14px;font-weight:600;color:var(--text-primary)">Profil mitra</span>
+    <div class="share-btn"><i class="ti ti-share" style="font-size:17px;color:var(--text-secondary)" aria-hidden="true"></i></div>
+  </div>
+
+  <div class="hero">
+    <div class="big-avatar" style="background:var(--primary-surface);color:var(--primary-dark)">BU</div>
+    <div style="flex:1">
+      <div class="mitra-name">Budi Santoso</div>
+      <div class="mitra-job"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> 1,2 km dari lokasimu · Pasuruan</div>
+      <div class="badge-row">
+        <span class="badge badge-verified"><i class="ti ti-circle-check" style="font-size:12px" aria-hidden="true"></i> Terverifikasi</span>
+        <span class="badge badge-top"><i class="ti ti-award" style="font-size:12px" aria-hidden="true"></i> Top mitra</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-item"><div class="stat-val" style="color:#BA7517">4.9</div><div class="stat-label"><i class="ti ti-star-filled" style="font-size:11px" aria-hidden="true"></i> Rating</div></div>
+    <div class="stat-item"><div class="stat-val">127</div><div class="stat-label">Pesanan</div></div>
+    <div class="stat-item"><div class="stat-val">98%</div><div class="stat-label">Selesai</div></div>
+    <div class="stat-item"><div class="stat-val">2 th</div><div class="stat-label">Bergabung</div></div>
+  </div>
+
+  <div class="tab-row" id="tabrow">
+    <div class="tab active" onclick="showTab('info')">Info</div>
+    <div class="tab" onclick="showTab('layanan')">Layanan</div>
+    <div class="tab" onclick="showTab('ulasan')">Ulasan</div>
+  </div>
+
+  <!-- Tab: Info -->
+  <div id="tab-info">
+    <div class="section">
+      <div class="sec-title">Tentang</div>
+      <div class="desc-text">Teknisi AC berpengalaman 5 tahun. Melayani pemasangan, service rutin, isi freon, dan perbaikan semua merek AC. Bergaransi 30 hari setiap pekerjaan.</div>
+    </div>
+    <div class="section">
+      <div class="sec-title">Detail</div>
+      <div class="info-row">
+        <div class="info-icon" style="background:var(--primary-surface)"><i class="ti ti-tools" style="font-size:15px;color:var(--primary)" aria-hidden="true"></i></div>
+        <span class="info-label">Keahlian</span>
+        <span class="info-val">Teknisi AC</span>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="background:#E1F5EE"><i class="ti ti-clock" style="font-size:15px;color:#0F6E56" aria-hidden="true"></i></div>
+        <span class="info-label">Jam kerja</span>
+        <span class="info-val">08.00 – 17.00</span>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="background:#FAEEDA"><i class="ti ti-calendar" style="font-size:15px;color:#854F0B" aria-hidden="true"></i></div>
+        <span class="info-label">Hari aktif</span>
+        <span class="info-val">Senin – Sabtu</span>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="background:#FAECE7"><i class="ti ti-map-pin" style="font-size:15px;color:#993C1D" aria-hidden="true"></i></div>
+        <span class="info-label">Jangkauan</span>
+        <span class="info-val">Kota & Kab. Pasuruan</span>
+      </div>
+    </div>
+    <div style="padding:16px 20px">
+      <div class="avail-chips">
+        <span style="font-size:12px;font-weight:600;color:var(--text-secondary);align-self:center;margin-right:6px">Hari ini:</span>
+        <span class="avail-chip on">Sen</span>
+        <span class="avail-chip on">Sel</span>
+        <span class="avail-chip on">Rab</span>
+        <span class="avail-chip on">Kam</span>
+        <span class="avail-chip on">Jum</span>
+        <span class="avail-chip on">Sab</span>
+        <span class="avail-chip off">Min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Layanan -->
+  <div id="tab-layanan" style="display:none">
+    <div class="section" style="padding-bottom:16px">
+      <div class="sec-title" style="margin-bottom:12px">Daftar layanan & harga</div>
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-name">Service rutin AC</div>
+          <div class="service-price">Rp 80.000</div>
+          <div class="service-note">Cuci + cek freon</div>
+        </div>
+        <div class="service-card">
+          <div class="service-name">Isi freon AC</div>
+          <div class="service-price">Rp 120.000</div>
+          <div class="service-note">Per kg freon</div>
+        </div>
+        <div class="service-card">
+          <div class="service-name">Pasang AC baru</div>
+          <div class="service-price">Rp 250.000</div>
+          <div class="service-note">Belum termasuk unit</div>
+        </div>
+        <div class="service-card">
+          <div class="service-name">Perbaikan AC</div>
+          <div class="service-price">Rp 150.000+</div>
+          <div class="service-note">Tergantung kerusakan</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-tertiary);margin-top:10px"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> Harga bisa berubah sesuai kondisi lapangan</div>
+    </div>
+  </div>
+
+  <!-- Tab: Ulasan -->
+  <div id="tab-ulasan" style="display:none">
+    <div class="section" style="padding-bottom:16px">
+      <div class="rating-summary">
+        <div>
+          <div class="big-rating">4.9</div>
+          <div class="rating-sub">dari 5 · 89 ulasan</div>
+        </div>
+        <div style="flex:1">
+          <div class="bar-row"><span class="bar-label">5</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-count">78</span></div>
+          <div class="bar-row"><span class="bar-label">4</span><div class="bar-track"><div class="bar-fill" style="width:11%"></div></div><span class="bar-count">9</span></div>
+          <div class="bar-row"><span class="bar-label">3</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-count">2</span></div>
+          <div class="bar-row"><span class="bar-label">2</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+          <div class="bar-row"><span class="bar-label">1</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+        </div>
+      </div>
+      <div class="review-item">
+        <div class="review-header">
+          <div class="rev-avatar" style="background:var(--primary-surface);color:var(--primary-dark)">AN</div>
+          <div>
+            <div class="rev-name">Andini K.</div>
+            <div style="display:flex;gap:2px;margin-top:2px">
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+            </div>
+          </div>
+          <span class="rev-date">10 Mei 2026</span>
+        </div>
+        <div class="rev-text">Cepat dan bersih kerjanya. AC langsung dingin setelah diservice. Sangat direkomendasikan!</div>
+      </div>
+      <div class="review-item">
+        <div class="review-header">
+          <div class="rev-avatar" style="background:#E1F5EE;color:#085041">SR</div>
+          <div>
+            <div class="rev-name">Siti R.</div>
+            <div style="display:flex;gap:2px;margin-top:2px">
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:#BA7517" aria-hidden="true"></i>
+              <i class="ti ti-star-filled" style="font-size:11px;color:var(--border-secondary)" aria-hidden="true"></i>
+            </div>
+          </div>
+          <span class="rev-date">3 Mei 2026</span>
+        </div>
+        <div class="rev-text">Ramah dan tepat waktu. Harga sesuai yang tertera di aplikasi.</div>
+      </div>
+      <div style="text-align:center;padding-top:10px">
+        <span style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:500">Lihat semua 89 ulasan →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action -->
+  <div class="bottom-action">
+    <button class="btn-chat" onclick="window.location.href='jasane_chat_mockup.html'"><i class="ti ti-message" style="font-size:16px" aria-hidden="true"></i> Chat</button>
+    <button class="btn-book" onclick="window.location.href='jasane_booking_mockup.html'"><i class="ti ti-calendar-plus" style="font-size:16px" aria-hidden="true"></i> Pesan sekarang</button>
+  </div>
+
+</div>
+
+<script>
+function showTab(name) {
+  ['info','layanan','ulasan'].forEach(function(t) {
+    document.getElementById('tab-'+t).style.display = t===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(el,i) {
+    el.classList.toggle('active', ['info','layanan','ulasan'][i]===name);
+  });
+}
+</script>
+</body>
+</html>
+
+
+
+
+
